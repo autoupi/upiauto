@@ -1,6 +1,6 @@
 # AutoUPI — One-Click Vercel Deployment
 
-Live domain: **https://autoupi.shop**
+Live domain: **https://www.autoupi.shop**
 
 ## 1. Deploy
 
@@ -34,7 +34,7 @@ Set them for **Production, Preview and Development**, then redeploy once.
 
 Vercel → Project → Settings → **Domains** → add `autoupi.shop` and `www.autoupi.shop`.
 The app's public base URL is hardcoded in `src/lib/public-base.ts` as
-`https://autoupi.shop`, so `payment_url` in API responses always points to your domain.
+`https://www.autoupi.shop`, so `payment_url` in API responses always points to your domain.
 
 ## 4. Cron jobs (every minute) — Hobby plan setup
 
@@ -46,11 +46,11 @@ Instead, use a free external cron service — it takes 2 minutes:
 
 1. Go to **https://cron-job.org** → create a free account.
 2. Create **Cron Job #1**:
-   - URL: `https://autoupi.shop/api/public/payments/poll`
+   - URL: `https://www.autoupi.shop/api/public/payments/poll`
    - Schedule: **every minute** (`* * * * *`)
    - Request method: `GET`
 3. Create **Cron Job #2**:
-   - URL: `https://autoupi.shop/api/public/v1/internal/dispatch-webhooks`
+   - URL: `https://www.autoupi.shop/api/public/v1/internal/dispatch-webhooks`
    - Schedule: **every minute** (`* * * * *`)
    - Request method: `GET`
 
