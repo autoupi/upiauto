@@ -50,7 +50,7 @@ Instead, use a free external cron service — it takes 2 minutes:
    - Schedule: **every minute** (`* * * * *`)
    - Request method: `GET`
 3. Create **Cron Job #2**:
-   - URL: `https://autoupi.shop/api/public/v1/internal/dispatch-webhooks`
+   - URL: `https://www.autoupi.shop/api/public/v1/internal/dispatch-webhooks`
    - Schedule: **every minute** (`* * * * *`)
    - Request method: `GET`
 
