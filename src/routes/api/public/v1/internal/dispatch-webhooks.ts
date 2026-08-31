@@ -33,13 +33,7 @@ async function handler() {
     .from("orders")
     .select(
 
-"order_id,merchant_id,merchant_order_id,status,requested_amount,payable_amount,paid_at,failed_at,payer_email,webhook_url,webhook_attempts,webhook_sta
-tus",
-    )
-    .eq("webhook_status", "pending")
-    .not("webhook_url", "is", null)
-    .in("status", ["paid", "expired", "failed"])
-    .lte("next_webhook_at", nowIso)
+"order_id,merchant_id,merchant_order_id,status,requested_amount,payable_amount,paid_at,failed_at,payer_email,webhook_url,webhook_attempts,webhook_status",).eq("webhook_status", "pending") .not("webhook_url", "is", null) .in("status", ["paid", "expired", "failed"]) .lte("next_webhook_at", nowIso)
 
 
 

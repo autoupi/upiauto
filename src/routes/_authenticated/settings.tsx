@@ -117,14 +117,7 @@ function SettingsPage() {
                 <input value={email} disabled className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-gray-50 text-gray-500" />
               </Row>
               <Row label="Display name">
-                <input value={displayName} onChange={(e) => setName(e.target.value)} className="w-full px-4 py-3 rounded-lg border border-gray-300
-focus:border-[#0d4a3a] outline-none" />
-              </Row>
-              <Row label={isDemo ? "UPI ID (pre-configured · locked)" : "UPI ID (your receiving VPA)"}>
-                {isDemo ? (
-                  <input
-                    value={DEMO_UPI}
-                    disabled
+                <input value={displayName} onChange={(e) => setName(e.target.value)} className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#0d4a3a] outline-none" /> </Row> <Row label={isDemo ? "UPI ID (pre-configured · locked)" : "UPI ID (your receiving VPA)"}> {isDemo ? ( <input value={DEMO_UPI} disabled
 
 
 
@@ -133,21 +126,9 @@ focus:border-[#0d4a3a] outline-none" />
                     className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-gray-50 text-gray-500 font-mono"
                   />
                 ) : (
-                  <input value={upiId} onChange={(e) => setUpi(e.target.value)} placeholder="yourname@bank" className="w-full px-4 py-3 rounded-lg
-border border-gray-300 focus:border-[#0d4a3a] outline-none font-mono" />
-                )}
-              </Row>
-              <Row label="Payee name (shown to payer)">
-                <input value={payeeName} onChange={(e) => setPayee(e.target.value)} placeholder="Your Business Name" className="w-full px-4 py-3
-rounded-lg border border-gray-300 focus:border-[#0d4a3a] outline-none" />
-              </Row>
+                  <input value={upiId} onChange={(e) => setUpi(e.target.value)} placeholder="yourname@bank" className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#0d4a3a] outline-none font-mono" /> )} </Row> <Row label="Payee name (shown to payer)"> <input value={payeeName} onChange={(e) => setPayee(e.target.value)} placeholder="Your Business Name" className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#0d4a3a] outline-none" /> </Row>
 
-              <button type="submit" disabled={saving} className="w-full py-3.5 rounded-lg bg-[#0d4a3a] hover:bg-[#0a3d30] text-white font-bold
-tracking-wide transition disabled:opacity-60">
-                 {saving ? "Saving…" : "SAVE CHANGES"}
-              </button>
-            </form>
-          </div>
+              <button type="submit" disabled={saving} className="w-full py-3.5 rounded-lg bg-[#0d4a3a] hover:bg-[#0a3d30] text-white font-bold tracking-wide transition disabled:opacity-60">{saving ? "Saving…" : "SAVE CHANGES"} </button> </form> </div>
 
            <EmailInboxCard />
 
@@ -299,28 +280,7 @@ function EmailInboxCard() {
            <button
              type="submit"
              disabled={busy || !inboxEmail.trim() || appPassword.trim().length < 8}
-             className="flex-1 py-3.5 rounded-lg bg-[#0d4a3a] hover:bg-[#0a3d30] text-white font-bold tracking-wide transition disabled:opacity-60"
-           >
-             {busy ? "Connecting…" : connected ? "UPDATE & RECONNECT" : "CONNECT EMAIL"}
-           </button>
-           <button
-             type="button"
-             onClick={onCheck}
-             disabled={checking || !state?.email_address}
-             className="py-3.5 px-5 rounded-lg border border-[#0d4a3a] text-[#0d4a3a] font-bold tracking-wide transition disabled:opacity-60"
-           >
-             {checking ? "Checking…" : "CHECK STATUS"}
-           </button>
-           {state?.email_address ? (
-             <button
-               type="button"
-               onClick={onDisconnect}
-               disabled={busy}
-               className="py-3.5 px-5 rounded-lg border border-red-300 text-red-600 font-bold tracking-wide transition disabled:opacity-60"
-             >
-               DISCONNECT
-             </button>
-           ) : null}
+             className="flex-1 py-3.5 rounded-lg bg-[#0d4a3a] hover:bg-[#0a3d30] text-white font-bold tracking-wide transition disabled:opacity-60">{busy ? "Connecting…" : connected ? "UPDATE & RECONNECT" : "CONNECT EMAIL"} </button> <button type="button" onClick={onCheck} disabled={checking || !state?.email_address}className="py-3.5 px-5 rounded-lg border border-[#0d4a3a] text-[#0d4a3a] font-bold tracking-wide transition disabled:opacity-60">{checking ? "Checking…" : "CHECK STATUS"} </button> {state?.email_address ? ( <button type="button" onClick={onDisconnect}disabled={busy}className="py-3.5 px-5 rounded-lg border border-red-300 text-red-600 font-bold tracking-wide transition disabled:opacity-60">DISCONNECT</button>) : null}
 
 
 

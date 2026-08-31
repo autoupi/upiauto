@@ -140,23 +140,7 @@ export async function POST(req: Request) {
 
 
 
-          <li><code>X-Signature: t=&lt;unix&gt;,v1=&lt;hex&gt;</code> — HMAC-SHA256 of <code>"&lt;t&gt;.&lt;raw_body&gt;"</code> using your webhook
-secret.</li>
-          <li><code>X-Webhook-Id</code> — unique per attempt (use for idempotency logging).</li>
-          <li><code>X-Event</code> — one of <code>payment.success</code>, <code>payment.expired</code>, <code>payment.failed</code>.</li>
-        </ul>
-        <p>Body:</p>
-        <pre>{`{
-  "event": "payment.success",
-  "order_id": "1234567890",
-  "merchant_order_id": "topup_42_abc",
-  "amount": 100,
-  "payable_amount": 100.07,
-  "paid_at": "2026-06-16T17:26:01.000Z",
-  "failed_at": null,
-  "payer_email": "no-reply@paytm.com",
-  "attempt": 1
-}`}</pre>
+          <li><code>X-Signature: t=&lt;unix&gt;,v1=&lt;hex&gt;</code> — HMAC-SHA256 of <code>"&lt;t&gt;.&lt;raw_body&gt;"</code> using your webhook secret.</li> <li><code>X-Webhook-Id</code> — unique per attempt (use for idempotency logging).</li> <li><code>X-Event</code> — one of <code>payment.success</code>, <code>payment.expired</code>, <code>payment.failed</code>.</li></ul><p>Body:</p><pre>{`{"event": "payment.success", "order_id": "1234567890", "merchant_order_id": "topup_42_abc", "amount": 100, "payable_amount": 100.07, "paid_at": "2026-06-16T17:26:01.000Z","failed_at": null, "payer_email": "no-reply@paytm.com","attempt": 1 }`}</pre>
 
         <h3>Node.js handler — full reference</h3>
         <pre>{`// app/api/webhooks/autoupi/route.ts

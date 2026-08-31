@@ -5,8 +5,7 @@ import { brokeredPreviewStorage } from './previewAuthStorage';
 
 const SUPABASE_URL = "https://sofqbuddurcpjchjdynz.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY =
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvZnFidWRkdXJjcGpjaGpkeW56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY0MjMzNTEsImV4cCI
-6MjEwMTk5OTM1MX0.hfxYFziID-833U9g2Mk9QqBqyCbEKwAVP5GYdw1Kebw";
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvZnFidWRkdXJjcGpjaGpkeW56Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY0MjMzNTEsImV4cCI6MjEwMTk5OTM1MX0.hfxYFziID-833U9g2Mk9QqBqyCbEKwAVP5GYdw1Kebw";
 
 // Import the supabase client like this:
 // import { supabase } from "@/integrations/supabase/client";

@@ -144,8 +144,7 @@ function LoginForm({ onSwitch }: { onSwitch: () => void }) {
              placeholder="Enter your password"
              className={`${inputCls} pr-11`}
           />
-          <button type="button" onClick={() => setShowPass((s) => !s)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 cursor-
-pointer">
+          <button type="button" onClick={() => setShowPass((s) => !s)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer">
 
                {showPass ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
             </button>
@@ -159,11 +158,7 @@ pointer">
 
 
 
-        className="mt-7 w-full py-3.5 rounded-lg bg-[#0d4a3a] hover:bg-[#0a3d30] text-white font-bold tracking-wide transition cursor-pointer
-disabled:cursor-not-allowed disabled:opacity-60"
-      >
-        {loading ? "Signing in…" : "LOGIN"}
-      </button>
+        className="mt-7 w-full py-3.5 rounded-lg bg-[#0d4a3a] hover:bg-[#0a3d30] text-white font-bold tracking-wide transition cursor-pointer disabled:cursor-not-allowed disabled:opacity-60">{loading ? "Signing in…" : "LOGIN"} </button>
 
       </form>
     );
@@ -220,19 +215,7 @@ function RegisterForm({ onSwitch }: { onSwitch: () => void }) {
 
       <div className="mt-5">
         <label className="block text-sm font-medium text-[#0d1b2a] mb-2">WhatsApp No.</label>
-        <div className="flex items-stretch rounded-lg border border-[#0d4a3a]/30 focus-within:border-[#0d4a3a] focus-within:ring-2 focus-within:ring-
-[#0d4a3a]/20 overflow-hidden">
-          <span className="px-3 flex items-center bg-gray-50 border-r border-[#0d4a3a]/20 text-[#0d1b2a] font-medium">+91</span>
-          <input
-             required
-             value={whatsapp}
-             onChange={(e) => setWhatsapp(e.target.value.replace(/\D/g, "").slice(0, 10))}
-             placeholder="10-digit whatsapp number"
-             inputMode="numeric"
-             className="flex-1 px-3 py-3 outline-none"
-          />
-        </div>
-      </div>
+        <div className="flex items-stretch rounded-lg border border-[#0d4a3a]/30 focus-within:border-[#0d4a3a] focus-within:ring-2 focus-within:ring-[#0d4a3a]/20 overflow-hidden"> <span className="px-3 flex items-center bg-gray-50 border-r border-[#0d4a3a]/20 text-[#0d1b2a] font-medium">+91</span><inputrequiredvalue={whatsapp}onChange={(e) => setWhatsapp(e.target.value.replace(/\D/g, "").slice(0, 10))} placeholder="10-digit whatsapp number" inputMode="numeric" className="flex-1 px-3 py-3 outline-none" /> </div> </div>
 
        <div className="mt-5">
          <Field label="Email">
@@ -263,12 +246,7 @@ function RegisterForm({ onSwitch }: { onSwitch: () => void }) {
               placeholder="Create a password"
               className={`${inputCls} pr-11`}
             />
-            <button type="button" onClick={() => setShowPass((s) => !s)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 cursor-
-pointer">
-              {showPass ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-           </button>
-         </div>
-       </div>
+            <button type="button" onClick={() => setShowPass((s) => !s)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 cursor-pointer"> {showPass ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />} </button> </div> </div>
 
        <label className="flex items-start gap-2 mt-5 text-sm text-[#0d1b2a]">
          <input
@@ -286,11 +264,7 @@ pointer">
       <button
         type="submit"
         disabled={loading || !agree}
-        className="mt-6 w-full py-3.5 rounded-lg bg-[#0d4a3a] hover:bg-[#0a3d30] text-white font-bold tracking-wide transition cursor-pointer
-disabled:cursor-not-allowed disabled:opacity-60"
-      >
-        {loading ? "Creating account…" : "REGISTER"}
-      </button>
+        className="mt-6 w-full py-3.5 rounded-lg bg-[#0d4a3a] hover:bg-[#0a3d30] text-white font-bold tracking-wide transition cursor-pointer disabled:cursor-not-allowed disabled:opacity-60">{loading ? "Creating account…" : "REGISTER"} </button>
 
         <p className="text-center text-sm text-gray-600 mt-6">
           Have an account?{" "}

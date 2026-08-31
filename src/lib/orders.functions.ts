@@ -100,13 +100,4 @@ export const createOrder = createServerFn({ method: "POST" })
          .single();
 
        if (!error && inserted) {
-         const upiUrl = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(payeeName)}&am=${payable.toFixed(2)}&cu=INR&tn=${orderId}`;
-         return { order: inserted, upiUrl };
-       }
-       // Duplicate => another concurrent request grabbed this slot; try next candidate.
-       if (error && !error.message.toLowerCase().includes("duplicate")) {
-         throw new Error(error.message);
-       }
-    }
-    throw new Error("All payment slots are currently busy. Please try again in a few minutes.");
-  });
+         const upiUrl = `upi://pay?pa=${encodeURIComponent(upiId)}&pn=${encodeURIComponent(payeeName)}&am=${payable.toFixed(2)}&cu=INR&tn=${orderId}`;return { order: inserted, upiUrl }; } // Duplicate => another concurrent request grabbed this slot; try next candidate. if (error && !error.message.toLowerCase().includes("duplicate")) { throw new Error(error.message);}}throw new Error("All payment slots are currently busy. Please try again in a few minutes."); });

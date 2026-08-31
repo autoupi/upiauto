@@ -51,29 +51,9 @@ function SignupPage() {
 
         <label className="block mb-4">
           <span className="text-sm font-medium">Display name</span>
-          <input value={name} onChange={(e) => setName(e.target.value)} required className="mt-1 w-full px-4 py-3 rounded-lg border border-gray-300
-focus:border-[#0d4a3a] outline-none" />
-        </label>
-        <label className="block mb-4">
-          <span className="text-sm font-medium">Email</span>
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="mt-1 w-full px-4 py-3 rounded-lg border
-border-gray-300 focus:border-[#0d4a3a] outline-none" />
-        </label>
-        <label className="block mb-6">
-          <span className="text-sm font-medium">Password</span>
-          <div className="relative mt-1">
-            <input type={showPass ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} required className="w-full
-px-4 py-3 pr-11 rounded-lg border border-gray-300 focus:border-[#0d4a3a] outline-none" />
-            <button type="button" onClick={() => setShowPass(s => !s)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
-              {showPass ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
-            </button>
-          </div>
-        </label>
+          <input value={name} onChange={(e) => setName(e.target.value)} required className="mt-1 w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#0d4a3a] outline-none" /> </label> <label className="block mb-4"> <span className="text-sm font-medium">Email</span><input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="mt-1 w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#0d4a3a] outline-none" /> </label> <label className="block mb-6"> <span className="text-sm font-medium">Password</span><div className="relative mt-1"> <input type={showPass ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} required className="w-full px-4 py-3 pr-11 rounded-lg border border-gray-300 focus:border-[#0d4a3a] outline-none" /> <button type="button" onClick={() => setShowPass(s => !s)} className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500"> {showPass ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />} </button> </div> </label>
 
-        <button type="submit" disabled={loading} className="w-full py-3 rounded-lg bg-[#0d4a3a] hover:bg-[#0a3d30] text-white font-bold tracking-wide
-transition disabled:opacity-60">
-          {loading ? "Creating…" : "CREATE ACCOUNT"}
-        </button>
+        <button type="submit" disabled={loading} className="w-full py-3 rounded-lg bg-[#0d4a3a] hover:bg-[#0a3d30] text-white font-bold tracking-wide transition disabled:opacity-60">{loading ? "Creating…" : "CREATE ACCOUNT"} </button>
 
           <p className="text-center text-sm text-gray-600 mt-5">
             Already have an account?{" "}
