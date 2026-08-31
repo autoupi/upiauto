@@ -303,7 +303,20 @@ Authorization: Bearer $AUTOUPI_API_KEY
          <h3>GET /api/public/v1/orders/:id</h3>
          <p>Auth required. Returns current order status. Section 5.</p>
 
-        <h2>10. Status values</h2>
+        <h2>10. Daily data retention (important)</h2>
+        <p>
+          Transaction data on the gateway is <b>purged every night at 12:00 AM IST</b>. Orders,
+          payment history, processed email records and webhook delivery logs are permanently
+          deleted for storage hygiene.
+        </p>
+        <ul>
+          <li><b>Not deleted:</b> your account, API key, webhook secret, UPI settings, connected inbox.</li>
+          <li><b>Consequence:</b> <code>GET /api/public/v1/orders/:id</code> returns <code>404</code> for orders created before the last purge.</li>
+          <li><b>What you must do:</b> store order + payment records in your own database when the webhook arrives. The webhook payload contains everything you need.</li>
+          <li>Reconcile pending topups within the same day (see section 6) — after midnight IST the gateway has no record.</li>
+        </ul>
+
+        <h2>11. Status values</h2>
         <ul>
           <li><code>pending</code> — order created, waiting for payment.</li>
           <li><code>paid</code> — payment detected &amp; matched.</li>

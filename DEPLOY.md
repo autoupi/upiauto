@@ -40,8 +40,8 @@ The app's public base URL is hardcoded in `src/lib/public-base.ts` as
 | `/api/public/payments/poll` | every minute | reads Gmail inbox, matches payments |
 | `/api/public/v1/internal/dispatch-webhooks` | every minute | retries merchant webhooks |
 
-Both endpoints require the header `x-cron-secret: $LOVABLE_CRON_SECRET`
-when called manually. Vercel Cron calls them on schedule automatically.
+Vercel Cron calls them on schedule automatically — no extra setup needed.
+Both handlers are idempotent, so extra calls are harmless.
 
 ## 5. Daily data purge (12:00 AM IST)
 
