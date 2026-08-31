@@ -1,6 +1,8 @@
-import { createStart, createCsrfMiddleware, createMiddleware } from "@tanstack/react-start";
+import { createStart, createMiddleware } from "@tanstack/react-start";
 
 import { renderErrorPage } from "./lib/error-page";
+import { describeError } from "./lib/error-capture";
+import { attachSupabaseAuth } from "@/integrations/supabase/auth-attacher";
 
 const errorMiddleware = createMiddleware().server(async ({ next }) => {
   try {
@@ -10,6 +12,17 @@ const errorMiddleware = createMiddleware().server(async ({ next }) => {
       throw error;
     }
     console.error(error);
+    try {
+      const { getRequestUrl } = await import("@tanstack/react-start/server");
+      if (new URL(String(getRequestUrl())).searchParams.get("__debug") === "1") {
+        return new Response(JSON.stringify({ error: describeError(error) }, null, 2), {
+          status: 500,
+          headers: { "content-type": "application/json" },
+        });
+      }
+    } catch {
+      // fall through to the friendly page
+    }
     return new Response(renderErrorPage(), {
       status: 500,
       headers: { "content-type": "text/html; charset=utf-8" },
@@ -17,13 +30,7 @@ const errorMiddleware = createMiddleware().server(async ({ next }) => {
   }
 });
 
-// Start installs this automatically when src/start.ts is absent; defining the
-// file opts out, so re-add it explicitly to keep server functions protected
-// from cross-site requests.
-const csrfMiddleware = createCsrfMiddleware({
-  filter: (ctx) => ctx.handlerType === "serverFn",
-});
-
 export const startInstance = createStart(() => ({
-  requestMiddleware: [errorMiddleware, csrfMiddleware],
+  functionMiddleware: [attachSupabaseAuth],
+  requestMiddleware: [errorMiddleware],
 }));

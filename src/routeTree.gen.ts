@@ -10,33 +10,223 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as DocsRouteImport } from './routes/docs'
+import { Route as SignupRouteImport } from './routes/signup'
+import { Route as AuthenticatedApiKeysRouteImport } from './routes/_authenticated/api-keys'
+import { Route as AuthenticatedGenerateRouteImport } from './routes/_authenticated/generate'
+import { Route as AuthenticatedHistoryRouteImport } from './routes/_authenticated/history'
+import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as PayOrderIdRouteImport } from './routes/pay.$orderId'
+import { Route as ApiPublicHealthRouteImport } from './routes/api/public/health'
+import { Route as ApiPublicPayOrderIdRouteImport } from './routes/api/public/pay.$orderId'
+import { Route as ApiPublicPaymentsPollRouteImport } from './routes/api/public/payments/poll'
+import { Route as ApiPublicV1OrdersRouteImport } from './routes/api/public/v1/orders'
+import { Route as ApiPublicV1InternalDispatchWebhooksRouteImport } from './routes/api/public/v1/internal/dispatch-webhooks'
+import { Route as ApiPublicV1OrdersIdRouteImport } from './routes/api/public/v1/orders.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocsRoute = DocsRouteImport.update({
+  id: '/docs',
+  path: '/docs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignupRoute = SignupRouteImport.update({
+  id: '/signup',
+  path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedApiKeysRoute = AuthenticatedApiKeysRouteImport.update({
+  id: '/api-keys',
+  path: '/api-keys',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedGenerateRoute = AuthenticatedGenerateRouteImport.update({
+  id: '/generate',
+  path: '/generate',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedHistoryRoute = AuthenticatedHistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const PayOrderIdRoute = PayOrderIdRouteImport.update({
+  id: '/pay/$orderId',
+  path: '/pay/$orderId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicHealthRoute = ApiPublicHealthRouteImport.update({
+  id: '/api/public/health',
+  path: '/api/public/health',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPayOrderIdRoute = ApiPublicPayOrderIdRouteImport.update({
+  id: '/api/public/pay/$orderId',
+  path: '/api/public/pay/$orderId',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicPaymentsPollRoute = ApiPublicPaymentsPollRouteImport.update({
+  id: '/api/public/payments/poll',
+  path: '/api/public/payments/poll',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicV1OrdersRoute = ApiPublicV1OrdersRouteImport.update({
+  id: '/api/public/v1/orders',
+  path: '/api/public/v1/orders',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicV1InternalDispatchWebhooksRoute =
+  ApiPublicV1InternalDispatchWebhooksRouteImport.update({
+    id: '/api/public/v1/internal/dispatch-webhooks',
+    path: '/api/public/v1/internal/dispatch-webhooks',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiPublicV1OrdersIdRoute = ApiPublicV1OrdersIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => ApiPublicV1OrdersRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/docs': typeof DocsRoute
+  '/signup': typeof SignupRoute
+  '/api-keys': typeof AuthenticatedApiKeysRoute
+  '/generate': typeof AuthenticatedGenerateRoute
+  '/history': typeof AuthenticatedHistoryRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/pay/$orderId': typeof PayOrderIdRoute
+  '/api/public/health': typeof ApiPublicHealthRoute
+  '/api/public/pay/$orderId': typeof ApiPublicPayOrderIdRoute
+  '/api/public/payments/poll': typeof ApiPublicPaymentsPollRoute
+  '/api/public/v1/orders': typeof ApiPublicV1OrdersRouteWithChildren
+  '/api/public/v1/internal/dispatch-webhooks': typeof ApiPublicV1InternalDispatchWebhooksRoute
+  '/api/public/v1/orders/$id': typeof ApiPublicV1OrdersIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/docs': typeof DocsRoute
+  '/signup': typeof SignupRoute
+  '/api-keys': typeof AuthenticatedApiKeysRoute
+  '/generate': typeof AuthenticatedGenerateRoute
+  '/history': typeof AuthenticatedHistoryRoute
+  '/settings': typeof AuthenticatedSettingsRoute
+  '/pay/$orderId': typeof PayOrderIdRoute
+  '/api/public/health': typeof ApiPublicHealthRoute
+  '/api/public/pay/$orderId': typeof ApiPublicPayOrderIdRoute
+  '/api/public/payments/poll': typeof ApiPublicPaymentsPollRoute
+  '/api/public/v1/orders': typeof ApiPublicV1OrdersRouteWithChildren
+  '/api/public/v1/internal/dispatch-webhooks': typeof ApiPublicV1InternalDispatchWebhooksRoute
+  '/api/public/v1/orders/$id': typeof ApiPublicV1OrdersIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/docs': typeof DocsRoute
+  '/signup': typeof SignupRoute
+  '/_authenticated/api-keys': typeof AuthenticatedApiKeysRoute
+  '/_authenticated/generate': typeof AuthenticatedGenerateRoute
+  '/_authenticated/history': typeof AuthenticatedHistoryRoute
+  '/_authenticated/settings': typeof AuthenticatedSettingsRoute
+  '/pay/$orderId': typeof PayOrderIdRoute
+  '/api/public/health': typeof ApiPublicHealthRoute
+  '/api/public/pay/$orderId': typeof ApiPublicPayOrderIdRoute
+  '/api/public/payments/poll': typeof ApiPublicPaymentsPollRoute
+  '/api/public/v1/orders': typeof ApiPublicV1OrdersRouteWithChildren
+  '/api/public/v1/internal/dispatch-webhooks': typeof ApiPublicV1InternalDispatchWebhooksRoute
+  '/api/public/v1/orders/$id': typeof ApiPublicV1OrdersIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/docs'
+    | '/signup'
+    | '/api-keys'
+    | '/generate'
+    | '/history'
+    | '/settings'
+    | '/pay/$orderId'
+    | '/api/public/health'
+    | '/api/public/pay/$orderId'
+    | '/api/public/payments/poll'
+    | '/api/public/v1/orders'
+    | '/api/public/v1/internal/dispatch-webhooks'
+    | '/api/public/v1/orders/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/docs'
+    | '/signup'
+    | '/api-keys'
+    | '/generate'
+    | '/history'
+    | '/settings'
+    | '/pay/$orderId'
+    | '/api/public/health'
+    | '/api/public/pay/$orderId'
+    | '/api/public/payments/poll'
+    | '/api/public/v1/orders'
+    | '/api/public/v1/internal/dispatch-webhooks'
+    | '/api/public/v1/orders/$id'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/docs'
+    | '/signup'
+    | '/_authenticated/api-keys'
+    | '/_authenticated/generate'
+    | '/_authenticated/history'
+    | '/_authenticated/settings'
+    | '/pay/$orderId'
+    | '/api/public/health'
+    | '/api/public/pay/$orderId'
+    | '/api/public/payments/poll'
+    | '/api/public/v1/orders'
+    | '/api/public/v1/internal/dispatch-webhooks'
+    | '/api/public/v1/orders/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
+  DocsRoute: typeof DocsRoute
+  SignupRoute: typeof SignupRoute
+  PayOrderIdRoute: typeof PayOrderIdRoute
+  ApiPublicHealthRoute: typeof ApiPublicHealthRoute
+  ApiPublicPayOrderIdRoute: typeof ApiPublicPayOrderIdRoute
+  ApiPublicPaymentsPollRoute: typeof ApiPublicPaymentsPollRoute
+  ApiPublicV1OrdersRoute: typeof ApiPublicV1OrdersRouteWithChildren
+  ApiPublicV1InternalDispatchWebhooksRoute: typeof ApiPublicV1InternalDispatchWebhooksRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +238,155 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/docs': {
+      id: '/docs'
+      path: '/docs'
+      fullPath: '/docs'
+      preLoaderRoute: typeof DocsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/api-keys': {
+      id: '/_authenticated/api-keys'
+      path: '/api-keys'
+      fullPath: '/api-keys'
+      preLoaderRoute: typeof AuthenticatedApiKeysRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/generate': {
+      id: '/_authenticated/generate'
+      path: '/generate'
+      fullPath: '/generate'
+      preLoaderRoute: typeof AuthenticatedGenerateRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/history': {
+      id: '/_authenticated/history'
+      path: '/history'
+      fullPath: '/history'
+      preLoaderRoute: typeof AuthenticatedHistoryRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/settings': {
+      id: '/_authenticated/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof AuthenticatedSettingsRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/pay/$orderId': {
+      id: '/pay/$orderId'
+      path: '/pay/$orderId'
+      fullPath: '/pay/$orderId'
+      preLoaderRoute: typeof PayOrderIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/health': {
+      id: '/api/public/health'
+      path: '/api/public/health'
+      fullPath: '/api/public/health'
+      preLoaderRoute: typeof ApiPublicHealthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/pay/$orderId': {
+      id: '/api/public/pay/$orderId'
+      path: '/api/public/pay/$orderId'
+      fullPath: '/api/public/pay/$orderId'
+      preLoaderRoute: typeof ApiPublicPayOrderIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/payments/poll': {
+      id: '/api/public/payments/poll'
+      path: '/api/public/payments/poll'
+      fullPath: '/api/public/payments/poll'
+      preLoaderRoute: typeof ApiPublicPaymentsPollRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/v1/orders': {
+      id: '/api/public/v1/orders'
+      path: '/api/public/v1/orders'
+      fullPath: '/api/public/v1/orders'
+      preLoaderRoute: typeof ApiPublicV1OrdersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/v1/internal/dispatch-webhooks': {
+      id: '/api/public/v1/internal/dispatch-webhooks'
+      path: '/api/public/v1/internal/dispatch-webhooks'
+      fullPath: '/api/public/v1/internal/dispatch-webhooks'
+      preLoaderRoute: typeof ApiPublicV1InternalDispatchWebhooksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/v1/orders/$id': {
+      id: '/api/public/v1/orders/$id'
+      path: '/$id'
+      fullPath: '/api/public/v1/orders/$id'
+      preLoaderRoute: typeof ApiPublicV1OrdersIdRouteImport
+      parentRoute: typeof ApiPublicV1OrdersRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedApiKeysRoute: typeof AuthenticatedApiKeysRoute
+  AuthenticatedGenerateRoute: typeof AuthenticatedGenerateRoute
+  AuthenticatedHistoryRoute: typeof AuthenticatedHistoryRoute
+  AuthenticatedSettingsRoute: typeof AuthenticatedSettingsRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedApiKeysRoute: AuthenticatedApiKeysRoute,
+  AuthenticatedGenerateRoute: AuthenticatedGenerateRoute,
+  AuthenticatedHistoryRoute: AuthenticatedHistoryRoute,
+  AuthenticatedSettingsRoute: AuthenticatedSettingsRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
+interface ApiPublicV1OrdersRouteChildren {
+  ApiPublicV1OrdersIdRoute: typeof ApiPublicV1OrdersIdRoute
+}
+
+const ApiPublicV1OrdersRouteChildren: ApiPublicV1OrdersRouteChildren = {
+  ApiPublicV1OrdersIdRoute: ApiPublicV1OrdersIdRoute,
+}
+
+const ApiPublicV1OrdersRouteWithChildren =
+  ApiPublicV1OrdersRoute._addFileChildren(ApiPublicV1OrdersRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
+  DocsRoute: DocsRoute,
+  SignupRoute: SignupRoute,
+  PayOrderIdRoute: PayOrderIdRoute,
+  ApiPublicHealthRoute: ApiPublicHealthRoute,
+  ApiPublicPayOrderIdRoute: ApiPublicPayOrderIdRoute,
+  ApiPublicPaymentsPollRoute: ApiPublicPaymentsPollRoute,
+  ApiPublicV1OrdersRoute: ApiPublicV1OrdersRouteWithChildren,
+  ApiPublicV1InternalDispatchWebhooksRoute:
+    ApiPublicV1InternalDispatchWebhooksRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
