@@ -1,6 +1,6 @@
 # AutoUPI — One-Click Vercel Deployment
 
-Live domain: **https://autoupi.shop**
+Live domain: **https://www.autoupi.shop**
 
 ## 1. Deploy
 
