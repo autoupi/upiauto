@@ -141,8 +141,3 @@
         </QueryClientProvider>
       );
   }
-
-
-
-
-5. Supabase Integration

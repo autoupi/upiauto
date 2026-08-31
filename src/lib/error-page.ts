@@ -30,8 +30,3 @@
     </body>
   </html>`;
   }
-
-
-
-
-7. Public API Routes
