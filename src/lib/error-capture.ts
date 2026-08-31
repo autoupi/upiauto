@@ -60,6 +60,10 @@ console.error = (...args: unknown[]) => {
     return describeError(arg);
   });
   originalConsoleError(...expanded);
+
+
+
+
 };
 
 if (typeof globalThis.addEventListener === "function") {
