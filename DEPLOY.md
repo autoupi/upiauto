@@ -23,7 +23,10 @@ Live domain: **https://autoupi.shop**
 | `VITE_SUPABASE_URL` | browser |
 | `VITE_SUPABASE_PUBLISHABLE_KEY` | browser |
 | `VITE_SUPABASE_PROJECT_ID` | browser |
-| `LOVABLE_CRON_SECRET` | internal cron endpoints |
+
+> **`LOVABLE_CRON_SECRET` is NOT required.** It is not used by the app code at
+> all (the cron endpoints are public and idempotent). You do not need to set it
+> on Vercel — the app has zero Lovable dependency at runtime.
 
 Set them for **Production, Preview and Development**, then redeploy once.
 
