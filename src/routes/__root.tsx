@@ -24,7 +24,12 @@
           <div className="mt-6">
             <Link
                to="/"
-               className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foregroundtransition-colors hover:bg-primary/90">Go home </Link> </div>
+               className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground
+  transition-colors hover:bg-primary/90"
+            >
+               Go home
+            </Link>
+          </div>
 
 
 
@@ -56,7 +61,23 @@
                  router.invalidate();
                  reset();
                }}
-               className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foregroundtransition-colors hover:bg-primary/90">Try again </button> <a href="/" className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent" > Go home </a> </div> </div> </div> ); }
+               className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground
+  transition-colors hover:bg-primary/90"
+            >
+               Try again
+            </button>
+            <a
+               href="/"
+               className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-
+  foreground transition-colors hover:bg-accent"
+            >
+               Go home
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
     head: () => ({
@@ -64,7 +85,34 @@
         { charSet: "utf-8" },
         { name: "viewport", content: "width=device-width, initial-scale=1" },
         { title: "AutoUPI | Gateway" },
-        { name: "description", content: "Swift Pay Gateway generates a payment QR and automatically marks it as paid upon detecting matching email notifications." }, { name: "author", content: "Lovable" }, { property: "og:title", content: "AutoUPI | Gateway" }, { property: "og:description", content: "Swift Pay Gateway generates a payment QR and automatically marks it as paid upon detecting matching email notifications." }, { property: "og:type", content: "website" }, { name: "twitter:card", content: "summary" }, { name: "twitter:site", content: "@Lovable" }, { name: "twitter:title", content: "AutoUPI | Gateway" }, { name: "twitter:description", content: "Swift Pay Gateway generates a payment QR and automatically marks it as paid upon detecting matching email notifications." }, { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/268c21ff-66cd-4a45-95cf-758f2d160d26/id-preview-aa69a33d--35735fe8-333d-4284-a7d2-180e9b23b4f0.lovable.app-1781503573646.png" }, { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/268c21ff-66cd-4a45-95cf-758f2d160d26/id-preview-aa69a33d--35735fe8-333d-4284-a7d2-180e9b23b4f0.lovable.app-1781503573646.png" }, ], links: [ { rel: "stylesheet", href: appCss }, { rel: "icon", type: "image/png", href: "/favicon.png" }, { rel: "apple-touch-icon", href: "/apple-touch-icon.png" }, ], }), shellComponent: RootShell, component: RootComponent, notFoundComponent: NotFoundComponent, errorComponent: ErrorComponent, });
+        { name: "description", content: "Swift Pay Gateway generates a payment QR and automatically marks it as paid upon detecting matching email
+  notifications." },
+        { name: "author", content: "Lovable" },
+        { property: "og:title", content: "AutoUPI | Gateway" },
+        { property: "og:description", content: "Swift Pay Gateway generates a payment QR and automatically marks it as paid upon detecting matching
+  email notifications." },
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary" },
+        { name: "twitter:site", content: "@Lovable" },
+        { name: "twitter:title", content: "AutoUPI | Gateway" },
+        { name: "twitter:description", content: "Swift Pay Gateway generates a payment QR and automatically marks it as paid upon detecting matching
+  email notifications." },
+        { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/268c21ff-66cd-4a45-95cf-758f2d160d26/id-preview-aa69a33d-
+  -35735fe8-333d-4284-a7d2-180e9b23b4f0.lovable.app-1781503573646.png" },
+        { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/268c21ff-66cd-4a45-95cf-758f2d160d26/id-preview-
+  aa69a33d--35735fe8-333d-4284-a7d2-180e9b23b4f0.lovable.app-1781503573646.png" },
+      ],
+      links: [
+        { rel: "stylesheet", href: appCss },
+        { rel: "icon", type: "image/png", href: "/favicon.png" },
+        { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+      ],
+    }),
+    shellComponent: RootShell,
+    component: RootComponent,
+    notFoundComponent: NotFoundComponent,
+    errorComponent: ErrorComponent,
+  });
 
   function RootShell({ children }: { children: ReactNode }) {
     return (

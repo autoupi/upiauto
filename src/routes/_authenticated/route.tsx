@@ -80,7 +80,16 @@ function AppSidebar() {
                     <SidebarMenuButton
                        asChild
                        tooltip={item.title}
-                       className={`group/btn h-10 rounded-lg transition-all duration-300 hover:bg-white/15 hover:translate-x-1 hover:shadow-md ${active ? "bg-white/20 shadow-inner" : ""}`} > <Link to={item.url}> <item.icon className={`w-4 h-4 transition-transform duration-300 group-hover/btn:scale-110 ${active ? "text-white" : "text-white/80"}`} /> <span className="font-medium flex-1">{item.title}</span></Link></SidebarMenuButton></SidebarMenuItem>);})}
+                       className={`group/btn h-10 rounded-lg transition-all duration-300 hover:bg-white/15 hover:translate-x-1 hover:shadow-md ${active ? "bg-white/20 shadow-inner" : ""}`}
+                    >
+                       <Link to={item.url}>
+                         <item.icon className={`w-4 h-4 transition-transform duration-300 group-hover/btn:scale-110 ${active ? "text-white" : "text-white/80"}`} />
+                         <span className="font-medium flex-1">{item.title}</span>
+                       </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                );
+              })}
 
                <SidebarMenuItem>
                  <SidebarMenuButton

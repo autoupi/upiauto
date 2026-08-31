@@ -55,9 +55,18 @@ function GeneratePage() {
               placeholder="100"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              className="w-full text-lg px-4 py-3 rounded-lg border border-gray-300 focus:border-[#0d4a3a] focus:ring-2 focus:ring-[#0d4a3a]/20outline-none"/></div>
+              className="w-full text-lg px-4 py-3 rounded-lg border border-gray-300 focus:border-[#0d4a3a] focus:ring-2 focus:ring-[#0d4a3a]/20outline-none"
+            />
+          </div>
 
 
 
 
-          <button type="submit" disabled={loading} className="w-full py-3.5 rounded-lg bg-[#0d4a3a] hover:bg-[#0a3d30] text-white font-bold tracking-wide transition disabled:opacity-60">{loading ? "Generating…" : "GENERATE QR"} </button> </form> </div> </div> ); }
+          <button type="submit" disabled={loading} className="w-full py-3.5 rounded-lg bg-[#0d4a3a] hover:bg-[#0a3d30] text-white font-bold tracking-wide transition disabled:opacity-60">
+             {loading ? "Generating…" : "GENERATE QR"}
+          </button>
+        </form>
+      </div>
+    </div>
+  );
+}

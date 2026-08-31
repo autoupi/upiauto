@@ -245,12 +245,47 @@ pa=${encodeURIComponent(pa)}&pn=${encodeURIComponent(pn)}&am=${order.payable_amo
 
   if (!order) {
     return (
-      <main className="fixed inset-0 h-[100dvh] w-[100dvw] overflow-hidden overscroll-none flex items-center justify-center p-3 sm:p-4" style={{ background: "#f5f5f5", touchAction: "none" }}> <div className="relative w-full max-w-[320px] sm:max-w-[340px]"> <div className="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_16px_-4px_rgba(0,0,0,0.08)] overflow-hidden"> <div className="flex flex-col items-center pt-5 pb-2.5 px-5"> <Skeleton className="h-10 w-32 rounded-md" /> </div> <div className="text-center px-5 pb-3"> <Skeleton className="h-6 w-40 rounded-md mx-auto" /> <Skeleton className="h-4 w-20 rounded-md mx-auto mt-2" /> </div> <div className="border-t border-gray-200 grid grid-cols-2"> <div className="px-5 py-3.5 border-r border-gray-200"><Skeleton className="h-5 w-24 rounded-md" /></div> <div className="px-5 py-3.5 flex items-center justify-center"><Skeleton className="h-6 w-20 rounded-md" /></div> </div> <div className="border-t border-gray-200 px-5 py-4 flex items-center justify-center"> <Skeleton className="w-[170px] h-[170px] rounded-md" /> </div> <div className="px-5 pb-4 flex items-center justify-center"> <Skeleton className="h-6 w-48 rounded-md" /> </div> <div className="border-t border-gray-200 px-5 py-3.5 flex items-center justify-between"> <Skeleton className="h-5 w-24 rounded-md" /> <Skeleton className="h-8 w-20 rounded-md" /> </div> </div> </div> </main> ); }
+      <main className="fixed inset-0 h-[100dvh] w-[100dvw] overflow-hidden overscroll-none flex items-center justify-center p-3 sm:p-4" style={{ background: "#f5f5f5", touchAction: "none" }}>
+        <div className="relative w-full max-w-[320px] sm:max-w-[340px]">
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_16px_-4px_rgba(0,0,0,0.08)] overflow-hidden">
+            <div className="flex flex-col items-center pt-5 pb-2.5 px-5">
+               <Skeleton className="h-10 w-32 rounded-md" />
+            </div>
+            <div className="text-center px-5 pb-3">
+               <Skeleton className="h-6 w-40 rounded-md mx-auto" />
+               <Skeleton className="h-4 w-20 rounded-md mx-auto mt-2" />
+            </div>
+            <div className="border-t border-gray-200 grid grid-cols-2">
+               <div className="px-5 py-3.5 border-r border-gray-200"><Skeleton className="h-5 w-24 rounded-md" /></div>
+               <div className="px-5 py-3.5 flex items-center justify-center"><Skeleton className="h-6 w-20 rounded-md" /></div>
+            </div>
+            <div className="border-t border-gray-200 px-5 py-4 flex items-center justify-center">
+               <Skeleton className="w-[170px] h-[170px] rounded-md" />
+            </div>
+            <div className="px-5 pb-4 flex items-center justify-center">
+               <Skeleton className="h-6 w-48 rounded-md" />
+            </div>
+            <div className="border-t border-gray-200 px-5 py-3.5 flex items-center justify-between">
+               <Skeleton className="h-5 w-24 rounded-md" />
+               <Skeleton className="h-8 w-20 rounded-md" />
+            </div>
+          </div>
+        </div>
+      </main>
+    );
+  }
 
   const showQrCard = effectiveStatus === "pending";
 
   return (
-    <main className="fixed inset-0 h-[100dvh] w-[100dvw] overflow-hidden overscroll-none flex items-center justify-center p-3 sm:p-4" style={{ background: "#f5f5f5", touchAction: "none" }}> <div className="relative w-full max-w-[320px] sm:max-w-[340px]"> {showQrCard && ( <div className="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_16px_-4px_rgba(0,0,0,0.08)] overflow-hidden"> {/* BHIM|UPI header */} <div className="flex flex-col items-center pt-5 pb-2.5 px-5"> <img src={BHIM_UPI_LOGO} alt="BHIM UPI" className="w-[190px] sm:w-[205px] object-contain" /> </div>
+    <main className="fixed inset-0 h-[100dvh] w-[100dvw] overflow-hidden overscroll-none flex items-center justify-center p-3 sm:p-4" style={{ background: "#f5f5f5", touchAction: "none" }}>
+      <div className="relative w-full max-w-[320px] sm:max-w-[340px]">
+        {showQrCard && (
+          <div className="bg-white rounded-2xl border border-gray-200 shadow-[0_2px_16px_-4px_rgba(0,0,0,0.08)] overflow-hidden">
+            {/* BHIM|UPI header */}
+            <div className="flex flex-col items-center pt-5 pb-2.5 px-5">
+              <img src={BHIM_UPI_LOGO} alt="BHIM UPI" className="w-[190px] sm:w-[205px] object-contain" />
+            </div>
 
               {/* Merchant name + Transfer to */}
               <div className="text-center px-5 pb-3">
@@ -291,7 +326,14 @@ pa=${encodeURIComponent(pa)}&pn=${encodeURIComponent(pn)}&am=${order.payable_amo
                 )}
                 {showProcessing && (
                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                     <div className="flex items-center gap-1.5 bg-white/95 backdrop-blur-sm shadow-md rounded-full px-3 py-1.5 text-primary font-semibold text-xs"> <Loader2 className="w-3.5 h-3.5 animate-spin" /> <span>Processing Payment…</span> </div> </div> )} </div> </div>
+                     <div className="flex items-center gap-1.5 bg-white/95 backdrop-blur-sm shadow-md rounded-full px-3 py-1.5 text-primary font-semibold text-xs">
+                        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+                        <span>Processing Payment…</span>
+                     </div>
+                   </div>
+                )}
+              </div>
+            </div>
 
               {/* Payment app icons */}
               <div className="px-5 pb-4 flex items-center justify-center">
@@ -306,7 +348,13 @@ pa=${encodeURIComponent(pa)}&pn=${encodeURIComponent(pn)}&am=${order.payable_amo
                <button
                   type="button"
                   onClick={(e) => e.preventDefault()}
-                  className="px-5 py-1.5 rounded-md bg-pink-100 text-pink-500 text-sm font-medium hover:bg-pink-200 transition cursor-pointer" > Cancel </button> </div> </div> )}
+                  className="px-5 py-1.5 rounded-md bg-pink-100 text-pink-500 text-sm font-medium hover:bg-pink-200 transition cursor-pointer"
+               >
+                  Cancel
+               </button>
+             </div>
+           </div>
+         )}
 
         {effectiveStatus === "paid" && (
           <div className="overflow-hidden rounded-3xl shadow-[0_8px_30px_-10px_rgba(0,0,0,0.18)] animate-scale-in">
@@ -315,7 +363,13 @@ pa=${encodeURIComponent(pa)}&pn=${encodeURIComponent(pn)}&am=${order.payable_amo
               <div className="mx-auto w-20 h-20 rounded-full bg-white flex items-center justify-center shadow-lg animate-scale-in">
                 <svg viewBox="0 0 24 24" className="w-10 h-10" fill="none" stroke="#2e7d3a" strokeWidth="3" strokeLinecap="round"
 strokeLinejoin="round">
-                  <path d="M4 12.5l5 5L20 6.5" style={{ strokeDasharray: 40, strokeDashoffset: 40, animation: "tick-draw 0.6s ease-out 0.2s forwards" }} /> </svg> </div> <h2 className="mt-4 text-white text-xl md:text-2xl font-bold tracking-tight">Payment successful!</h2> <p className="mt-1.5 text-white/90 text-sm">Redirecting back to merchant's website...</p> <style>{`@keyframes tick-draw { to { stroke-dashoffset: 0; } } @keyframes copy-pop { 0% { transform: scale(0.6); opacity: 0; } 60% { transform: scale(1.15); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }`}</style> </div>
+                  <path d="M4 12.5l5 5L20 6.5" style={{ strokeDasharray: 40, strokeDashoffset: 40, animation: "tick-draw 0.6s ease-out 0.2s forwards" }} />
+                </svg>
+              </div>
+              <h2 className="mt-4 text-white text-xl md:text-2xl font-bold tracking-tight">Payment successful!</h2>
+              <p className="mt-1.5 text-white/90 text-sm">Redirecting back to merchant's website...</p>
+              <style>{`@keyframes tick-draw { to { stroke-dashoffset: 0; } } @keyframes copy-pop { 0% { transform: scale(0.6); opacity: 0; } 60% { transform: scale(1.15); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }`}</style>
+            </div>
 
 
 
@@ -363,7 +417,16 @@ strokeLinejoin="round">
                     setCopied(true);
                     setTimeout(() => setCopied(false), 1500);
                   }}
-                  className={`p-2 rounded-lg transition-colors ${copied ? "text-[#2e7d3a] bg-[#e7f4ea]" : "text-[#6b3fa0] hover:bg-neutral-50"}`}aria-label="Copy order ID" > {copied ? ( <Check className="w-5 h-5" style={{ animation: "copy-pop 0.35s ease-out" }} /> ) : ( <Copy className="w-5 h-5" /> )} </button> </div>
+                  className={`p-2 rounded-lg transition-colors ${copied ? "text-[#2e7d3a] bg-[#e7f4ea]" : "text-[#6b3fa0] hover:bg-neutral-50"}`}
+                  aria-label="Copy order ID"
+                >
+                  {copied ? (
+                    <Check className="w-5 h-5" style={{ animation: "copy-pop 0.35s ease-out" }} />
+                  ) : (
+                    <Copy className="w-5 h-5" />
+                  )}
+                </button>
+              </div>
 
              {redirectIn !== null && order.success_url && (
                <div className="bg-white px-6 pb-5 text-center text-xs text-neutral-500">

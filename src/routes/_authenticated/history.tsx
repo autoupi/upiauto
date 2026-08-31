@@ -4,7 +4,10 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { listMyOrders } from "@/lib/history.functions";
 import { supabase } from "@/integrations/supabase/client";
-import { History as HistoryIcon, CheckCircle2, Clock, XCircle, AlertCircle, Search, X, RefreshCw, Landmark, Maximize2, Minimize2 } from "lucide-react"; import { motion, AnimatePresence } from "framer-motion"; import phonepeUrl from "@/assets/phonepe.png";import applePaySoundUrl from "@/assets/applepay.mp3";
+import { History as HistoryIcon, CheckCircle2, Clock, XCircle, AlertCircle, Search, X, RefreshCw, Landmark, Maximize2, Minimize2 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import phonepeUrl from "@/assets/phonepe.png";
+import applePaySoundUrl from "@/assets/applepay.mp3";
 
 export const Route = createFileRoute("/_authenticated/history")({
   head: () => ({ meta: [{ title: "AutoUPI | History" }] }),
@@ -62,7 +65,12 @@ function PendingTimer({ startIso }: { startIso: string }) {
   const start = useMemo(() => new Date(startIso).getTime(), [startIso]);
   const sec = Math.max(0, Math.floor((Date.now() - start) / 1000));
   return (
-    <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-amber-50 border border-amber-200 text-amber-700 text-[10px] font-semibold tabular-nums"> <Clock className="w-3 h-3" /> {formatElapsed(sec)}</span>);}
+    <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md bg-amber-50 border border-amber-200 text-amber-700 text-[10px] font-semibold tabular-nums">
+      <Clock className="w-3 h-3" />
+      {formatElapsed(sec)}
+    </span>
+  );
+}
 
 function elapsedSeconds(startIso: string, endIso: string | null) {
   const start = new Date(startIso).getTime();
@@ -326,7 +334,37 @@ function HistoryPage() {
       {/* Sticky top */}
       <div className="sticky top-0 z-20 bg-white/85 backdrop-blur-md pb-3">
         {/* Header card */}
-        <div className="relative mt-1 mb-3 overflow-hidden rounded-2xl border border-black/5 bg-gradient-to-br from-[#0d4a3a] via-[#0f5a45] to-[#127a5b] text-white shadow-sm"> <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 20% 20%, white 0, transparent 40%), radial-gradient(circle at 80% 80%, white 0, transparent 35%)" }} /> <div className="relative px-3 sm:px-5 py-3 sm:py-4 flex flex-col gap-3"> {/* Row 1: title + action buttons */} <div className="flex items-center gap-2 sm:gap-3 min-w-0"> <div className="w-10 h-10 sm:w-11 sm:h-11 shrink-0 rounded-xl bg-white/15 backdrop-blur-sm flex items-center justify-center ring-1 ring-white/20"> <HistoryIcon className="w-5 h-5" /> </div> <div className="flex-1 min-w-0"> <h1 className="text-lg sm:text-2xl font-bold tracking-tight truncate">Payment History</h1> <p className="text-[11px] sm:text-sm text-white/80 flex items-center gap-1.5 sm:gap-2 mt-0.5"> <span className="relative flex h-2 w-2 shrink-0"> <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-300 opacity-75"></span> <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-300"></span></span><span className="truncate">Live updates enabled</span> </p> </div> <button onClick={() => qc.invalidateQueries({ queryKey: ["my-orders"] })} className="shrink-0 inline-flex items-center gap-1.5 p-2 sm:px-3 sm:py-1.5 rounded-full bg-white/15 hover:bg-white/25 text-xs font-semibold ring-1 ring-white/20 transition" aria-label="Refresh"title="Refresh"><RefreshCw className={`w-3.5 h-3.5 ${isFetching ? "animate-spin" : ""}`} /> <span className="hidden sm:inline">Refresh</span></button><buttononClick={toggleFullscreen}className="shrink-0 inline-flex items-center gap-1.5 p-2 sm:px-3 sm:py-1.5 rounded-full bg-white/15 hover:bg-white/25 text-xs font-semibold ring-1 ring-white/20 transition" aria-label={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
+        <div className="relative mt-1 mb-3 overflow-hidden rounded-2xl border border-black/5 bg-gradient-to-br from-[#0d4a3a] via-[#0f5a45] to-[#127a5b] text-white shadow-sm">
+          <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: "radial-gradient(circle at 20% 20%, white 0, transparent 40%), radial-gradient(circle at 80% 80%, white 0, transparent 35%)" }} />
+          <div className="relative px-3 sm:px-5 py-3 sm:py-4 flex flex-col gap-3">
+            {/* Row 1: title + action buttons */}
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+              <div className="w-10 h-10 sm:w-11 sm:h-11 shrink-0 rounded-xl bg-white/15 backdrop-blur-sm flex items-center justify-center ring-1 ring-white/20">
+                <HistoryIcon className="w-5 h-5" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <h1 className="text-lg sm:text-2xl font-bold tracking-tight truncate">Payment History</h1>
+                <p className="text-[11px] sm:text-sm text-white/80 flex items-center gap-1.5 sm:gap-2 mt-0.5">
+                  <span className="relative flex h-2 w-2 shrink-0">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-300 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-300"></span>
+                  </span>
+                  <span className="truncate">Live updates enabled</span>
+                </p>
+              </div>
+              <button
+                onClick={() => qc.invalidateQueries({ queryKey: ["my-orders"] })}
+                className="shrink-0 inline-flex items-center gap-1.5 p-2 sm:px-3 sm:py-1.5 rounded-full bg-white/15 hover:bg-white/25 text-xs font-semibold ring-1 ring-white/20 transition"
+                aria-label="Refresh"
+                title="Refresh"
+              >
+                <RefreshCw className={`w-3.5 h-3.5 ${isFetching ? "animate-spin" : ""}`} />
+                <span className="hidden sm:inline">Refresh</span>
+              </button>
+              <button
+                onClick={toggleFullscreen}
+                className="shrink-0 inline-flex items-center gap-1.5 p-2 sm:px-3 sm:py-1.5 rounded-full bg-white/15 hover:bg-white/25 text-xs font-semibold ring-1 ring-white/20 transition"
+                aria-label={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
 
 
 
@@ -341,7 +379,21 @@ function HistoryPage() {
             {/* Row 2: today's received + order count */}
             <div className="flex items-stretch gap-2 sm:gap-3">
                <div
-                 className={`flex-1 min-w-0 flex flex-col px-3 py-2 rounded-xl bg-white/10 ring-1 transition-all ${pulse ? "ring-emerald-300/80shadow-[0_0_20px_rgba(110,231,183,0.55)]" : "ring-white/20"}`} title="Total received today" > <span className="text-[10px] uppercase tracking-wider text-white/70 font-semibold leading-none">Today's Received</span> <span className="mt-1 text-xl sm:text-2xl font-bold text-white tabular-nums leading-none truncate"> ₹{displayTotal.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} </span> </div> <div className="shrink-0 flex flex-col items-end justify-center px-3 py-2 rounded-xl bg-white/10 ring-1 ring-white/20"> <span className="text-[10px] uppercase tracking-wider text-white/70 font-semibold leading-none">Orders</span><span className="mt-1 text-base sm:text-lg font-bold tabular-nums leading-none">{orders.length}</span></div></div></div></div>
+                 className={`flex-1 min-w-0 flex flex-col px-3 py-2 rounded-xl bg-white/10 ring-1 transition-all ${pulse ? "ring-emerald-300/80shadow-[0_0_20px_rgba(110,231,183,0.55)]" : "ring-white/20"}`}
+                 title="Total received today"
+               >
+                 <span className="text-[10px] uppercase tracking-wider text-white/70 font-semibold leading-none">Today's Received</span>
+                 <span className="mt-1 text-xl sm:text-2xl font-bold text-white tabular-nums leading-none truncate">
+                   ₹{displayTotal.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                 </span>
+               </div>
+               <div className="shrink-0 flex flex-col items-end justify-center px-3 py-2 rounded-xl bg-white/10 ring-1 ring-white/20">
+                 <span className="text-[10px] uppercase tracking-wider text-white/70 font-semibold leading-none">Orders</span>
+                 <span className="mt-1 text-base sm:text-lg font-bold tabular-nums leading-none">{orders.length}</span>
+               </div>
+            </div>
+          </div>
+        </div>
 
         {/* Search */}
         <div className="relative">
@@ -351,7 +403,24 @@ function HistoryPage() {
              value={search}
              onChange={(e) => setSearch(e.target.value)}
              placeholder="Search provider, email, order, amount…"
-             className="w-full pl-9 pr-9 py-2.5 rounded-xl border border-black/10 bg-white text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-[#0d4a3a]/30 focus:border-[#0d4a3a]/40 transition" /> {hasQuery && ( <button onClick={() => setSearch("")} className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-md text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 transition" aria-label="Clear search" > <X className="w-4 h-4" /> </button> )} </div> {hasQuery && ( <div className="mt-2 text-xs text-zinc-500 px-1"> {filteredOrders.length} {filteredOrders.length === 1 ? "result" : "results"} </div> )} </div>
+             className="w-full pl-9 pr-9 py-2.5 rounded-xl border border-black/10 bg-white text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-[#0d4a3a]/30 focus:border-[#0d4a3a]/40 transition"
+          />
+          {hasQuery && (
+             <button
+               onClick={() => setSearch("")}
+               className="absolute right-2 top-1/2 -translate-y-1/2 p-1 rounded-md text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100 transition"
+               aria-label="Clear search"
+             >
+               <X className="w-4 h-4" />
+             </button>
+          )}
+        </div>
+        {hasQuery && (
+          <div className="mt-2 text-xs text-zinc-500 px-1">
+             {filteredOrders.length} {filteredOrders.length === 1 ? "result" : "results"}
+          </div>
+        )}
+      </div>
 
       {/* Scrollable list */}
       <div className="flex-1 min-h-0 overflow-auto bg-white rounded-2xl shadow-sm border border-black/5 mt-1">
@@ -368,7 +437,29 @@ function HistoryPage() {
           </div>
         ) : filteredOrders.length === 0 ? (
           <div className="m-4 p-10 text-center rounded-xl border border-dashed border-zinc-200 bg-zinc-50/50">
-            <div className="mx-auto w-14 h-14 rounded-full bg-white flex items-center justify-center shadow-sm border border-zinc-100 mb-3"> <HistoryIcon className="w-6 h-6 text-zinc-400" /> </div> <p className="text-sm text-zinc-600 font-medium"> {orders.length === 0 ? "No payments yet" : "No orders match your search"} </p> <p className="text-xs text-zinc-400 mt-1"> {orders.length === 0 ? "Generate a QR to get started." : "Try a different keyword."} </p> </div> ) : ( <div> {/* Sticky column header — desktop only */} <div className="hidden sm:grid sticky top-0 z-10 grid-cols-12 gap-3 px-5 py-2.5 bg-zinc-50/95 backdrop-blur text-[11px] uppercase tracking-wider text-zinc-500 font-semibold border-b border-black/5"> <div className="col-span-2">Provider</div><div className="col-span-2">Email</div><div className="col-span-2">Order ID</div> <div className="col-span-1">Amount</div><div className="col-span-2">Status</div><div className="col-span-2">Date &amp; Time</div> <div className="col-span-1">Time</div></div><div className="divide-y divide-black/5">
+            <div className="mx-auto w-14 h-14 rounded-full bg-white flex items-center justify-center shadow-sm border border-zinc-100 mb-3">
+              <HistoryIcon className="w-6 h-6 text-zinc-400" />
+            </div>
+            <p className="text-sm text-zinc-600 font-medium">
+              {orders.length === 0 ? "No payments yet" : "No orders match your search"}
+            </p>
+            <p className="text-xs text-zinc-400 mt-1">
+              {orders.length === 0 ? "Generate a QR to get started." : "Try a different keyword."}
+            </p>
+          </div>
+        ) : (
+          <div>
+            {/* Sticky column header — desktop only */}
+            <div className="hidden sm:grid sticky top-0 z-10 grid-cols-12 gap-3 px-5 py-2.5 bg-zinc-50/95 backdrop-blur text-[11px] uppercase tracking-wider text-zinc-500 font-semibold border-b border-black/5">
+              <div className="col-span-2">Provider</div>
+              <div className="col-span-2">Email</div>
+              <div className="col-span-2">Order ID</div>
+              <div className="col-span-1">Amount</div>
+              <div className="col-span-2">Status</div>
+              <div className="col-span-2">Date &amp; Time</div>
+              <div className="col-span-1">Time</div>
+            </div>
+            <div className="divide-y divide-black/5">
 
 
 
