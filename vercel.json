@@ -2,9 +2,5 @@
     "$schema": "https://openapi.vercel.sh/vercel.json",
     "framework": null,
     "installCommand": "npm install",
-    "buildCommand": "BUILD_TARGET=vercel NITRO_PRESET=vercel npm run build",
-    "crons": [
-        { "path": "/api/public/payments/poll", "schedule": "* * * * *" },
-        { "path": "/api/public/v1/internal/dispatch-webhooks", "schedule": "* * * * *" }
-    ]
+    "buildCommand": "BUILD_TARGET=vercel NITRO_PRESET=vercel npm run build"
 }
