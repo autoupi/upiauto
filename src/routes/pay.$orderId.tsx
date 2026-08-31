@@ -105,12 +105,7 @@ function PayPage() {
       return;
     }
     const pn = order.upi_pn || PAYEE_NAME_FALLBACK;
-
-
-
-
-    const upiUrl = `upi://pay?
-pa=${encodeURIComponent(pa)}&pn=${encodeURIComponent(pn)}&am=${order.payable_amount.toFixed(2)}&cu=INR&tn=${order.order_id}`;
+    const upiUrl = `upi://pay?pa=${encodeURIComponent(pa)}&pn=${encodeURIComponent(pn)}&am=${order.payable_amount.toFixed(2)}&cu=INR&tn=${order.order_id}`;
     QRCode.toDataURL(upiUrl, {
       width: 960,
       margin: 1,
