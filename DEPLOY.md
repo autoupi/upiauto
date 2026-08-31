@@ -46,7 +46,7 @@ Instead, use a free external cron service — it takes 2 minutes:
 
 1. Go to **https://cron-job.org** → create a free account.
 2. Create **Cron Job #1**:
-   - URL: `https://autoupi.shop/api/public/payments/poll`
+   - URL: `https://www.autoupi.shop/api/public/payments/poll`
    - Schedule: **every minute** (`* * * * *`)
    - Request method: `GET`
 3. Create **Cron Job #2**:
