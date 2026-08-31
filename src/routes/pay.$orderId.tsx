@@ -5,8 +5,8 @@ import QRCode from "qrcode";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, XCircle, Loader2, Clock, AlertCircle, Copy, Check } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import bhimUpiUrl from "@/assets/bhim-upi-real.jpg";
-import upiAppsUrl from "@/assets/upi-apps-real.jpg";
+import bhimUpiAsset from "@/assets/bhim-upi.jpg.asset.json";
+import upiAppsAsset from "@/assets/upi-apps.jpg.asset.json";
 
 
 
@@ -14,8 +14,8 @@ import upiAppsUrl from "@/assets/upi-apps-real.jpg";
 import finonLogoUrl from "@/assets/finonpay-logo.jpg";
 
 const PAYEE_NAME_FALLBACK = "Merchant";
-const BHIM_UPI_LOGO = bhimUpiUrl;
-const UPI_APPS = upiAppsUrl;
+const BHIM_UPI_LOGO = bhimUpiAsset.url;
+const UPI_APPS = upiAppsAsset.url;
 const CENTER_LOGO = finonLogoUrl;
 
 interface Order {
@@ -105,12 +105,7 @@ function PayPage() {
       return;
     }
     const pn = order.upi_pn || PAYEE_NAME_FALLBACK;
-
-
-
-
-    const upiUrl = `upi://pay?
-pa=${encodeURIComponent(pa)}&pn=${encodeURIComponent(pn)}&am=${order.payable_amount.toFixed(2)}&cu=INR&tn=${order.order_id}`;
+    const upiUrl = `upi://pay?pa=${encodeURIComponent(pa)}&pn=${encodeURIComponent(pn)}&am=${order.payable_amount.toFixed(2)}&cu=INR&tn=${order.order_id}`;
     QRCode.toDataURL(upiUrl, {
       width: 960,
       margin: 1,
@@ -289,7 +284,7 @@ pa=${encodeURIComponent(pa)}&pn=${encodeURIComponent(pn)}&am=${order.payable_amo
 
               {/* Merchant name + Transfer to */}
               <div className="text-center px-5 pb-3">
-                <div className="text-[20px] sm:text-[22px] font-bold text-[#1a2b4a] leading-tight">FinonPay</div>
+                <div className="text-[20px] sm:text-[22px] font-bold text-[#1a2b4a] leading-tight">Panme Shop</div>
                 <div className="text-sm text-gray-400 mt-1">Transfer to</div>
               </div>
 
