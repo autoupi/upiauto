@@ -33,15 +33,34 @@ Vercel → Project → Settings → **Domains** → add `autoupi.shop` and `www.
 The app's public base URL is hardcoded in `src/lib/public-base.ts` as
 `https://autoupi.shop`, so `payment_url` in API responses always points to your domain.
 
-## 4. Cron jobs (already configured in `vercel.json`)
+## 4. Cron jobs (every minute) — Hobby plan setup
 
-| Path | Schedule (UTC) | Purpose |
-| --- | --- | --- |
-| `/api/public/payments/poll` | every minute | reads Gmail inbox, matches payments |
-| `/api/public/v1/internal/dispatch-webhooks` | every minute | retries merchant webhooks |
+Vercel **Hobby (free)** accounts only allow cron jobs that run **once per day**,
+so per-minute crons are NOT declared in `vercel.json` (they would block the deploy
+with "Hobby accounts are limited to daily cron jobs").
 
-Vercel Cron calls them on schedule automatically — no extra setup needed.
-Both handlers are idempotent, so extra calls are harmless.
+Instead, use a free external cron service — it takes 2 minutes:
+
+1. Go to **https://cron-job.org** → create a free account.
+2. Create **Cron Job #1**:
+   - URL: `https://autoupi.shop/api/public/payments/poll`
+   - Schedule: **every minute** (`* * * * *`)
+   - Request method: `GET`
+3. Create **Cron Job #2**:
+   - URL: `https://autoupi.shop/api/public/v1/internal/dispatch-webhooks`
+   - Schedule: **every minute** (`* * * * *`)
+   - Request method: `GET`
+
+| Path | Purpose |
+| --- | --- |
+| `/api/public/payments/poll` | reads Gmail inbox, matches payments |
+| `/api/public/v1/internal/dispatch-webhooks` | retries merchant webhooks |
+
+Both handlers are public and idempotent, so external calls are safe and extra
+calls are harmless.
+
+> On a Vercel **Pro** plan you can instead add the two crons back to
+> `vercel.json` with `"schedule": "* * * * *"` and skip cron-job.org.
 
 ## 5. Daily data purge (12:00 AM IST)
 
