@@ -4,7 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import { swalSuccess } from "@/lib/swal";
-import logoUrl from "@/assets/finonpay-logo.jpg";
+import logoUrl from "@/assets/panme-logo.jpg";
 
 export const Route = createFileRoute("/auth")({
   ssr: false,

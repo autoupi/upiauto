@@ -5,18 +5,18 @@ import QRCode from "qrcode";
 import { Button } from "@/components/ui/button";
 import { CheckCircle2, XCircle, Loader2, Clock, AlertCircle, Copy, Check } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import bhimUpiAsset from "@/assets/bhim-upi.jpg.asset.json";
-import upiAppsAsset from "@/assets/upi-apps.jpg.asset.json";
+import bhimUpiUrl from "@/assets/bhim-upi-real.jpg";
+import upiAppsUrl from "@/assets/upi-apps-real.jpg";
 
 
 
 
-import finonLogoUrl from "@/assets/finonpay-logo.jpg";
+import panmeLogoUrl from "@/assets/panme-logo.jpg";
 
 const PAYEE_NAME_FALLBACK = "Merchant";
-const BHIM_UPI_LOGO = bhimUpiAsset.url;
-const UPI_APPS = upiAppsAsset.url;
-const CENTER_LOGO = finonLogoUrl;
+const BHIM_UPI_LOGO = bhimUpiUrl;
+const UPI_APPS = upiAppsUrl;
+const CENTER_LOGO = panmeLogoUrl;
 
 interface Order {
   order_id: string;
