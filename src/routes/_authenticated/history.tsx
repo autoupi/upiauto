@@ -157,8 +157,6 @@ function HistoryPage() {
     queryKey: ["my-orders"],
     queryFn: () => list(),
     refetchOnWindowFocus: true,
-    refetchInterval: 4000,
-    refetchIntervalInBackground: true,
   });
 
     const merchantId = data?.merchantId ?? null;
