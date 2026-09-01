@@ -1,4 +1,3 @@
-import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useMemo, useRef, useState } from "react";
 import QRCode from "qrcode";
 
@@ -32,18 +31,7 @@ interface Order {
   upi_pn?: string | null;
 }
 
-export const Route = createFileRoute("/pay/$orderId")({
-  head: () => ({
-    meta: [
-      { title: "AutoUPI | Scan and Pay" },
-      { name: "description", content: "Scan the UPI QR to complete your payment." },
-    ],
-  }),
-  component: PayPage,
-});
-
-function PayPage() {
-  const { orderId } = Route.useParams();
+export function PayPageView({ orderId }: { orderId: string }) {
   const [order, setOrder] = useState<Order | null>(null);
   const [qrDataUrl, setQrDataUrl] = useState<string>("");
   const [now, setNow] = useState(Date.now());
