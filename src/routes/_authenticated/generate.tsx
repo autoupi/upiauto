@@ -24,7 +24,9 @@ function GeneratePage() {
       try {
         const res = (await create({ data: { amount: n } })) as unknown as { order: { order_id: string } };
         const orderId = res.order.order_id;
-        window.open(`/pay/${orderId}`, "_blank", "noopener,noreferrer");
+        // Clean URL: order ID travels via sessionStorage, not the address bar.
+        sessionStorage.setItem("pay_order_id", orderId);
+        window.open("/pay", "_blank", "noopener,noreferrer");
         swalSuccess("QR generated successfully");
         setAmount("");
       } catch (err: any) {
