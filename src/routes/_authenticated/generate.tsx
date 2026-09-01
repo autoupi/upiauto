@@ -26,7 +26,9 @@ function GeneratePage() {
         const orderId = res.order.order_id;
         // Clean URL: order ID travels via sessionStorage, not the address bar.
         sessionStorage.setItem("pay_order_id", orderId);
-        window.open("/pay", "_blank", "noopener,noreferrer");
+        // No `noopener` here: the new tab must inherit this tab's sessionStorage
+        // (Chrome/Edge clone it on window.open) so /pay can read the order ID.
+        window.open("/pay", "_blank");
         swalSuccess("QR generated successfully");
         setAmount("");
       } catch (err: any) {

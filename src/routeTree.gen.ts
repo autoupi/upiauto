@@ -18,6 +18,7 @@ import { Route as AuthenticatedApiKeysRouteImport } from './routes/_authenticate
 import { Route as AuthenticatedGenerateRouteImport } from './routes/_authenticated/generate'
 import { Route as AuthenticatedHistoryRouteImport } from './routes/_authenticated/history'
 import { Route as AuthenticatedSettingsRouteImport } from './routes/_authenticated/settings'
+import { Route as PayIndexRouteImport } from './routes/pay.index'
 import { Route as PayOrderIdRouteImport } from './routes/pay.$orderId'
 import { Route as ApiPublicHealthRouteImport } from './routes/api/public/health'
 import { Route as ApiPublicPayOrderIdRouteImport } from './routes/api/public/pay.$orderId'
@@ -70,6 +71,11 @@ const AuthenticatedSettingsRoute = AuthenticatedSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const PayIndexRoute = PayIndexRouteImport.update({
+  id: '/pay/',
+  path: '/pay/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PayOrderIdRoute = PayOrderIdRouteImport.update({
   id: '/pay/$orderId',
   path: '/pay/$orderId',
@@ -117,6 +123,7 @@ export interface FileRoutesByFullPath {
   '/history': typeof AuthenticatedHistoryRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/pay/$orderId': typeof PayOrderIdRoute
+  '/pay/': typeof PayIndexRoute
   '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/pay/$orderId': typeof ApiPublicPayOrderIdRoute
   '/api/public/payments/poll': typeof ApiPublicPaymentsPollRoute
@@ -134,6 +141,7 @@ export interface FileRoutesByTo {
   '/history': typeof AuthenticatedHistoryRoute
   '/settings': typeof AuthenticatedSettingsRoute
   '/pay/$orderId': typeof PayOrderIdRoute
+  '/pay': typeof PayIndexRoute
   '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/pay/$orderId': typeof ApiPublicPayOrderIdRoute
   '/api/public/payments/poll': typeof ApiPublicPaymentsPollRoute
@@ -153,6 +161,7 @@ export interface FileRoutesById {
   '/_authenticated/history': typeof AuthenticatedHistoryRoute
   '/_authenticated/settings': typeof AuthenticatedSettingsRoute
   '/pay/$orderId': typeof PayOrderIdRoute
+  '/pay/': typeof PayIndexRoute
   '/api/public/health': typeof ApiPublicHealthRoute
   '/api/public/pay/$orderId': typeof ApiPublicPayOrderIdRoute
   '/api/public/payments/poll': typeof ApiPublicPaymentsPollRoute
@@ -172,6 +181,7 @@ export interface FileRouteTypes {
     | '/history'
     | '/settings'
     | '/pay/$orderId'
+    | '/pay/'
     | '/api/public/health'
     | '/api/public/pay/$orderId'
     | '/api/public/payments/poll'
@@ -189,6 +199,7 @@ export interface FileRouteTypes {
     | '/history'
     | '/settings'
     | '/pay/$orderId'
+    | '/pay'
     | '/api/public/health'
     | '/api/public/pay/$orderId'
     | '/api/public/payments/poll'
@@ -207,6 +218,7 @@ export interface FileRouteTypes {
     | '/_authenticated/history'
     | '/_authenticated/settings'
     | '/pay/$orderId'
+    | '/pay/'
     | '/api/public/health'
     | '/api/public/pay/$orderId'
     | '/api/public/payments/poll'
@@ -222,6 +234,7 @@ export interface RootRouteChildren {
   DocsRoute: typeof DocsRoute
   SignupRoute: typeof SignupRoute
   PayOrderIdRoute: typeof PayOrderIdRoute
+  PayIndexRoute: typeof PayIndexRoute
   ApiPublicHealthRoute: typeof ApiPublicHealthRoute
   ApiPublicPayOrderIdRoute: typeof ApiPublicPayOrderIdRoute
   ApiPublicPaymentsPollRoute: typeof ApiPublicPaymentsPollRoute
@@ -293,6 +306,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/settings'
       preLoaderRoute: typeof AuthenticatedSettingsRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/pay/': {
+      id: '/pay/'
+      path: '/pay'
+      fullPath: '/pay/'
+      preLoaderRoute: typeof PayIndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/pay/$orderId': {
       id: '/pay/$orderId'
@@ -381,6 +401,7 @@ const rootRouteChildren: RootRouteChildren = {
   DocsRoute: DocsRoute,
   SignupRoute: SignupRoute,
   PayOrderIdRoute: PayOrderIdRoute,
+  PayIndexRoute: PayIndexRoute,
   ApiPublicHealthRoute: ApiPublicHealthRoute,
   ApiPublicPayOrderIdRoute: ApiPublicPayOrderIdRoute,
   ApiPublicPaymentsPollRoute: ApiPublicPaymentsPollRoute,
