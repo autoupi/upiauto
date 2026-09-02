@@ -88,7 +88,7 @@ export const Route = createFileRoute("/api/public/v1/orders/$id")({
            }
            if (!merchant) return json({ error: "invalid_api_key" }, 401);
 
-           const { data: order } = await supabase
+           let { data: order } = await supabase
              .from("orders")
              .select(
                "order_id,merchant_order_id,status,requested_amount,payable_amount,created_at,expiry_at,paid_at,failed_at,payer_email",
@@ -97,6 +97,19 @@ export const Route = createFileRoute("/api/public/v1/orders/$id")({
              .eq("merchant_id", merchant.id)
              .maybeSingle();
            if (!order) return json({ error: "order_not_found" }, 404);
+
+           if (order.status === "pending") {
+             await triggerInboxScan(request);
+             const { data: refreshed } = await supabase
+               .from("orders")
+               .select(
+                 "order_id,merchant_order_id,status,requested_amount,payable_amount,created_at,expiry_at,paid_at,failed_at,payer_email",
+               )
+               .eq("order_id", params.id)
+               .eq("merchant_id", merchant.id)
+               .maybeSingle();
+             if (refreshed) order = refreshed;
+           }
 
           return json({
             order_id: order.order_id,
