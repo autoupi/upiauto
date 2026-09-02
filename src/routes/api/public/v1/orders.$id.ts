@@ -15,6 +15,23 @@ function json(body: unknown, status = 200) {
    });
 }
 
+// Embedded/merchant status polling also has to drive inbox scanning, otherwise
+// payments are only detected when the hosted /pay page is open. Throttled so a
+// 3s widget poll never hammers IMAP.
+let lastScanAt = 0;
+async function triggerInboxScan(request: Request) {
+  const now = Date.now();
+  if (now - lastScanAt < 10_000) return;
+  lastScanAt = now;
+  try {
+    const origin = new URL(request.url).origin;
+    await fetch(`${origin}/api/public/payments/poll`, { method: "POST" });
+  } catch {
+    /* detection also runs from cron; ignore transient failures */
+  }
+}
+
+
 export const Route = createFileRoute("/api/public/v1/orders/$id")({
   server: {
     handlers: {
@@ -71,7 +88,7 @@ export const Route = createFileRoute("/api/public/v1/orders/$id")({
            }
            if (!merchant) return json({ error: "invalid_api_key" }, 401);
 
-           const { data: order } = await supabase
+           let { data: order } = await supabase
              .from("orders")
              .select(
                "order_id,merchant_order_id,status,requested_amount,payable_amount,created_at,expiry_at,paid_at,failed_at,payer_email",
@@ -80,6 +97,19 @@ export const Route = createFileRoute("/api/public/v1/orders/$id")({
              .eq("merchant_id", merchant.id)
              .maybeSingle();
            if (!order) return json({ error: "order_not_found" }, 404);
+
+           if (order.status === "pending") {
+             await triggerInboxScan(request);
+             const { data: refreshed } = await supabase
+               .from("orders")
+               .select(
+                 "order_id,merchant_order_id,status,requested_amount,payable_amount,created_at,expiry_at,paid_at,failed_at,payer_email",
+               )
+               .eq("order_id", params.id)
+               .eq("merchant_id", merchant.id)
+               .maybeSingle();
+             if (refreshed) order = refreshed;
+           }
 
           return json({
             order_id: order.order_id,
