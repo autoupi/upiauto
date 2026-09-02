@@ -39,6 +39,25 @@ const BodySchema = z.object({
     .optional(),
 });
 
+function buildUpiUri(pa: string, pn: string, amount: number, orderId: string) {
+  return `upi://pay?pa=${encodeURIComponent(pa)}&pn=${encodeURIComponent(pn)}&am=${amount.toFixed(2)}&cu=INR&tn=${orderId}`;
+}
+
+/** Server-rendered QR as an SVG data URL (no client QR library needed). */
+async function buildQrDataUrl(text: string): Promise<string | null> {
+  try {
+    const QR = (await import("qrcode")).default;
+    const svg = await QR.toString(text, { type: "svg", margin: 1, width: 320 });
+    const b64 =
+      typeof Buffer !== "undefined"
+        ? Buffer.from(svg, "utf8").toString("base64")
+        : btoa(unescape(encodeURIComponent(svg)));
+    return `data:image/svg+xml;base64,${b64}`;
+  } catch {
+    return null;
+  }
+}
+
 function gen10() {
   let s = "";
   for (let i = 0; i < 10; i++) s += Math.floor(Math.random() * 10);
