@@ -15,6 +15,23 @@ function json(body: unknown, status = 200) {
    });
 }
 
+// Embedded/merchant status polling also has to drive inbox scanning, otherwise
+// payments are only detected when the hosted /pay page is open. Throttled so a
+// 3s widget poll never hammers IMAP.
+let lastScanAt = 0;
+async function triggerInboxScan(request: Request) {
+  const now = Date.now();
+  if (now - lastScanAt < 10_000) return;
+  lastScanAt = now;
+  try {
+    const origin = new URL(request.url).origin;
+    await fetch(`${origin}/api/public/payments/poll`, { method: "POST" });
+  } catch {
+    /* detection also runs from cron; ignore transient failures */
+  }
+}
+
+
 export const Route = createFileRoute("/api/public/v1/orders/$id")({
   server: {
     handlers: {
