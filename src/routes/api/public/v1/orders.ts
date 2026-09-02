@@ -258,6 +258,12 @@ export const Route = createFileRoute("/api/public/v1/orders")({
                 .single();
               if (!error && inserted) {
                 const origin = resolvePublicOrigin(request);
+                const upiUri = buildUpiUri(
+                  upiId,
+                  payeeName,
+                  Number(inserted.payable_amount),
+                  inserted.order_id,
+                );
                 return json(
                   {
                     order_id: inserted.order_id,
@@ -265,6 +271,8 @@ export const Route = createFileRoute("/api/public/v1/orders")({
                     status: inserted.status,
                     expires_at: inserted.expiry_at,
                     payment_url: `${origin}/pay/${inserted.order_id}`,
+                    upi_uri: upiUri,
+                    qr_base64: await buildQrDataUrl(upiUri),
                   },
                   201,
                 );
