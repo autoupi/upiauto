@@ -316,7 +316,45 @@ Authorization: Bearer $AUTOUPI_API_KEY
           <li>Reconcile pending topups within the same day (see section 6) — after midnight IST the gateway has no record.</li>
         </ul>
 
-        <h2>11. Status values</h2>
+        <h2>11. Embedded QR (no redirect, no popup)</h2>
+        <p>
+          Agar aap customer ko apni hi website par rakhna chahte hain, toh order create response me
+          ab <code>upi_uri</code> aur <code>qr_base64</code> (SVG data URL) bhi aata hai — usi page
+          par QR render kar dijiye. Payment detection, webhook aur retention logic bilkul same hai.
+        </p>
+        <pre>{`{
+  "order_id": "1234567890",
+  "payable_amount": 100.07,
+  "status": "pending",
+  "expires_at": "...",
+  "payment_url": "${BASE}/pay/1234567890",
+  "upi_uri": "upi://pay?pa=...&am=100.07&cu=INR&tn=1234567890",
+  "qr_base64": "data:image/svg+xml;base64,..."
+}`}</pre>
+        <h3>Ready-made widget (copy-paste)</h3>
+        <pre>{`<div id="panme-pay"></div>
+<script src="${BASE}/embed/panme-pay.js"></script>
+<script>
+  PanMePay.mount("#panme-pay", {
+    // Recommended: apne server ka proxy do, taaki API key browser me na aaye.
+    createOrderUrl: "/api/create-topup",   // POST { amount } -> gateway order JSON
+    statusUrl: "/api/topup-status/",       // GET  <id>       -> gateway status JSON
+    onSuccess: function (order) {
+      // Sirf UI ke liye. Wallet credit hamesha webhook se karein.
+      location.reload();
+    }
+  });
+</script>`}</pre>
+        <p>
+          Quick test ke liye <code>apiKey: "lk_live_..."</code> direct bhi de sakte hain (tab proxy
+          ki zaroorat nahi), lekin production me key server-side rakhna behtar hai.
+        </p>
+        <p>
+          <b>Important:</b> browser ka <code>onSuccess</code> sirf UI dikhane ke liye hai. Wallet
+          balance hamesha section 4 ke signed webhook par hi credit karein.
+        </p>
+
+        <h2>12. Status values</h2>
         <ul>
           <li><code>pending</code> — order created, waiting for payment.</li>
           <li><code>paid</code> — payment detected &amp; matched.</li>

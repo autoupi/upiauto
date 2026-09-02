@@ -39,6 +39,25 @@ const BodySchema = z.object({
     .optional(),
 });
 
+function buildUpiUri(pa: string, pn: string, amount: number, orderId: string) {
+  return `upi://pay?pa=${encodeURIComponent(pa)}&pn=${encodeURIComponent(pn)}&am=${amount.toFixed(2)}&cu=INR&tn=${orderId}`;
+}
+
+/** Server-rendered QR as an SVG data URL (no client QR library needed). */
+async function buildQrDataUrl(text: string): Promise<string | null> {
+  try {
+    const QR = (await import("qrcode")).default;
+    const svg = await QR.toString(text, { type: "svg", margin: 1, width: 320 });
+    const b64 =
+      typeof Buffer !== "undefined"
+        ? Buffer.from(svg, "utf8").toString("base64")
+        : btoa(unescape(encodeURIComponent(svg)));
+    return `data:image/svg+xml;base64,${b64}`;
+  } catch {
+    return null;
+  }
+}
+
 function gen10() {
   let s = "";
   for (let i = 0; i < 10; i++) s += Math.floor(Math.random() * 10);
@@ -151,12 +170,20 @@ export const Route = createFileRoute("/api/public/v1/orders")({
              .maybeSingle();
            if (existing) {
              const origin = resolvePublicOrigin(request);
+             const upiUri = buildUpiUri(
+               existing.upi_pa || upiId,
+               existing.upi_pn || payeeName,
+               Number(existing.payable_amount),
+               existing.order_id,
+             );
              return json({
                order_id: existing.order_id,
                payable_amount: Number(existing.payable_amount),
                status: existing.status,
                expires_at: existing.expiry_at,
                payment_url: `${origin}/pay/${existing.order_id}`,
+               upi_uri: upiUri,
+               qr_base64: await buildQrDataUrl(upiUri),
                idempotent_replay: true,
              });
            }
@@ -231,6 +258,12 @@ export const Route = createFileRoute("/api/public/v1/orders")({
                 .single();
               if (!error && inserted) {
                 const origin = resolvePublicOrigin(request);
+                const upiUri = buildUpiUri(
+                  upiId,
+                  payeeName,
+                  Number(inserted.payable_amount),
+                  inserted.order_id,
+                );
                 return json(
                   {
                     order_id: inserted.order_id,
@@ -238,6 +271,8 @@ export const Route = createFileRoute("/api/public/v1/orders")({
                     status: inserted.status,
                     expires_at: inserted.expiry_at,
                     payment_url: `${origin}/pay/${inserted.order_id}`,
+                    upi_uri: upiUri,
+                    qr_base64: await buildQrDataUrl(upiUri),
                   },
                   201,
                 );
