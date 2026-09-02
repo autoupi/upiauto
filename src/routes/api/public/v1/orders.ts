@@ -170,12 +170,20 @@ export const Route = createFileRoute("/api/public/v1/orders")({
              .maybeSingle();
            if (existing) {
              const origin = resolvePublicOrigin(request);
+             const upiUri = buildUpiUri(
+               existing.upi_pa || upiId,
+               existing.upi_pn || payeeName,
+               Number(existing.payable_amount),
+               existing.order_id,
+             );
              return json({
                order_id: existing.order_id,
                payable_amount: Number(existing.payable_amount),
                status: existing.status,
                expires_at: existing.expiry_at,
                payment_url: `${origin}/pay/${existing.order_id}`,
+               upi_uri: upiUri,
+               qr_base64: await buildQrDataUrl(upiUri),
                idempotent_replay: true,
              });
            }
