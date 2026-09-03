@@ -21,7 +21,7 @@ function json(body: unknown, status = 200) {
 let lastScanAt = 0;
 async function triggerInboxScan(request: Request) {
   const now = Date.now();
-  if (now - lastScanAt < 10_000) return;
+  if (now - lastScanAt < 2_000) return;
   lastScanAt = now;
   try {
     const origin = new URL(request.url).origin;
