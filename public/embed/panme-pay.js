@@ -16,7 +16,7 @@
   "use strict";
 
   var GATEWAY = "https://www.autoupi.shop";
-  var POLL_MS = 3000;
+  var POLL_MS = 2000;
 
   function el(tag, style, text) {
     var n = document.createElement(tag);
@@ -138,7 +138,9 @@
       }, 1000);
       timer.textContent = "Expires in " + fmtTime(expiry - Date.now());
 
-      var poll = setInterval(function () {
+      var stopped = false;
+      var pollTimer = null;
+      function pollStatus() {
         var url =
           (opts.statusUrl
             ? opts.statusUrl + encodeURIComponent(order.order_id)
@@ -149,17 +151,23 @@
           .then(readJson)
           .then(function (d) {
             if (d.status === "paid") {
-              clearInterval(poll);
+              stopped = true;
+              clearTimeout(pollTimer);
               clearInterval(tick);
               renderDone(d);
             } else if (d.status === "expired" || d.status === "failed") {
-              clearInterval(poll);
+              stopped = true;
+              clearTimeout(pollTimer);
               clearInterval(tick);
               renderForm("Payment " + d.status + ". Please try again.");
             }
           })
-          .catch(function () {});
-      }, POLL_MS);
+          .catch(function () {})
+          .finally(function () {
+            if (!stopped) pollTimer = setTimeout(pollStatus, POLL_MS);
+          });
+      }
+      pollTimer = setTimeout(pollStatus, POLL_MS);
     }
 
     function renderDone(order) {

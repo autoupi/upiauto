@@ -19,13 +19,13 @@ function json(body: unknown, status = 200) {
 // payments are only detected when the hosted /pay page is open. Throttled so a
 // 3s widget poll never hammers IMAP.
 let lastScanAt = 0;
-async function triggerInboxScan(request: Request) {
+async function triggerInboxScan(request: Request, orderId: string) {
   const now = Date.now();
   if (now - lastScanAt < 2_000) return;
   lastScanAt = now;
   try {
     const origin = new URL(request.url).origin;
-    await fetch(`${origin}/api/public/payments/poll`, { method: "POST" });
+    await fetch(`${origin}/api/public/payments/poll?order_id=${encodeURIComponent(orderId)}`, { method: "POST" });
   } catch {
     /* detection also runs from cron; ignore transient failures */
   }
@@ -99,7 +99,7 @@ export const Route = createFileRoute("/api/public/v1/orders/$id")({
            if (!order) return json({ error: "order_not_found" }, 404);
 
            if (order.status === "pending") {
-             await triggerInboxScan(request);
+              await triggerInboxScan(request, params.id);
              const { data: refreshed } = await supabase
                .from("orders")
                .select(
