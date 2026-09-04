@@ -107,11 +107,11 @@ export function PayPageView({ orderId }: { orderId: string }) {
       setNow(Date.now());
       if (order?.status === "pending" && Date.now() - lastPollRef.current > 1500) {
         lastPollRef.current = Date.now();
-        fetch("/api/public/payments/poll", { method: "POST" }).catch(() => {});
+        fetch(`/api/public/payments/poll?order_id=${encodeURIComponent(orderId)}`, { method: "POST" }).catch(() => {});
       }
     }, 1000);
     return () => clearInterval(tick);
-  }, [order?.status]);
+  }, [order?.status, orderId]);
 
   // Block right-click and devtools shortcuts on the payment page to reduce casual tampering / inspection.
   useEffect(() => {

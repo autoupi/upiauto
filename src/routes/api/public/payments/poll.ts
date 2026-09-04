@@ -49,7 +49,7 @@ export const Route = createFileRoute("/api/public/payments/poll")({
 
 
 
-async function handler() {
+async function handler({ request }: { request: Request }) {
   const supabase = createClient(
     process.env.SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!,
@@ -66,10 +66,27 @@ async function handler() {
     try {
       // One pass per connected merchant inbox (dashboard App Password), plus the
       // env-configured inbox when present. Matching logic is identical for each.
-      const { data: accounts } = await supabase
-        .from("email_accounts")
-        .select("user_id,email_address,app_password")
-        .eq("status", "connected");
+       const orderId = new URL(request.url).searchParams.get("order_id")?.trim();
+       let ownerId: string | null = null;
+       if (orderId) {
+         const { data: order } = await supabase
+           .from("orders")
+           .select("merchants!inner(owner_id)")
+           .eq("order_id", orderId)
+           .maybeSingle();
+         const merchant = Array.isArray(order?.merchants) ? order.merchants[0] : order?.merchants;
+         ownerId = merchant?.owner_id ?? null;
+         if (!ownerId) {
+           return Response.json({ ok: false, error: "Order not found." }, { status: 404 });
+         }
+       }
+
+       let accountsQuery = supabase
+         .from("email_accounts")
+         .select("user_id,email_address,app_password")
+         .eq("status", "connected");
+       if (ownerId) accountsQuery = accountsQuery.eq("user_id", ownerId);
+       const { data: accounts } = await accountsQuery;
 
      const inboxes: Array<{ user_id: string | null; user?: string; pass?: string }> =
        (accounts ?? []).map((a: any) => ({ user_id: a.user_id, user: a.email_address, pass: a.app_password }));
