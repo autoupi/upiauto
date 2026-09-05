@@ -24,7 +24,7 @@ function PayCleanPage() {
 
   useEffect(() => {
     const id = sessionStorage.getItem(STORAGE_KEY);
-    setOrderId(id && /^\d{10}$/.test(id) ? id : null);
+    setOrderId(id && /^(PANME-)?\d{10}$/.test(id) ? id : null);
     setChecked(true);
   }, []);
 
