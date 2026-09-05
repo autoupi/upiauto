@@ -7,7 +7,7 @@ const DEFAULT_PAYEE = "Merchant";
 function gen10DigitId() {
   let s = "";
   for (let i = 0; i < 10; i++) s += Math.floor(Math.random() * 10);
-  return s;
+  return `PANME-${s}`;
 }
 
 export const createOrder = createServerFn({ method: "POST" })

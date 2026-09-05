@@ -61,7 +61,7 @@ async function buildQrDataUrl(text: string): Promise<string | null> {
 function gen10() {
   let s = "";
   for (let i = 0; i < 10; i++) s += Math.floor(Math.random() * 10);
-  return s;
+  return `PANME-${s}`;
 }
 
 export const Route = createFileRoute("/api/public/v1/orders")({
