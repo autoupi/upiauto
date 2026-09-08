@@ -20,15 +20,12 @@ export const Route = createFileRoute("/_authenticated/settings")({
   component: SettingsPage,
 });
 
-const DEMO_EMAIL = "demo@demo.com";
-const DEMO_UPI = "Q372876223@ybl";
+const DEMO_EMAIL = "demo@gmail.com";
+const DEMO_UPI = "Q168071078@ybl";
 
 function SettingsPage() {
   const get = useServerFn(getMyProfile);
   const save = useServerFn(updateMyProfile);
-
-
-
 
   const [displayName, setName] = useState("");
   const [upiId, setUpi] = useState("");
@@ -68,8 +65,6 @@ function SettingsPage() {
       setSaving(false);
     }
   }
-
-
 
   return (
     <div className="max-w-7xl mx-auto space-y-6">
@@ -124,10 +119,6 @@ function SettingsPage() {
                   <input
                     value={DEMO_UPI}
                     disabled
-
-
-
-
                     readOnly
                     className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-gray-50 text-gray-500 font-mono"
                   />
@@ -145,7 +136,7 @@ function SettingsPage() {
             </form>
           </div>
 
-           <EmailInboxCard />
+           <EmailInboxCard isDemo={isDemo} />
 
           </div>
         )}
@@ -153,7 +144,7 @@ function SettingsPage() {
     );
 }
 
-function EmailInboxCard() {
+function EmailInboxCard({ isDemo }: { isDemo: boolean }) {
   const load = useServerFn(getMyEmailAccount);
   const connect = useServerFn(connectMyEmailAccount);
   const check = useServerFn(checkMyEmailAccount);
@@ -219,10 +210,7 @@ function EmailInboxCard() {
     }
 
     async function onDisconnect() {
-
-
-
-
+      if (isDemo) return;
       setBusy(true);
       try {
         const s = await disconnect();
@@ -262,6 +250,12 @@ function EmailInboxCard() {
          Google App Password. Payments are detected by reading this inbox in real time.
        </p>
 
+       {isDemo && (
+         <div className="mb-4 rounded-lg bg-blue-50 border border-blue-100 p-3 text-sm text-blue-700">
+           This is a demo account. The inbox connection is pre-configured and cannot be disconnected.
+         </div>
+       )}
+
        <form onSubmit={onConnect} className="space-y-4">
          <Row label="Inbox email">
            <input
@@ -269,7 +263,8 @@ function EmailInboxCard() {
               value={inboxEmail}
               onChange={(e) => setInboxEmail(e.target.value)}
               placeholder="youremail@gmail.com"
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#0d4a3a] outline-none font-mono"
+              disabled={isDemo}
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#0d4a3a] outline-none font-mono disabled:bg-gray-50 disabled:text-gray-500"
            />
          </Row>
          <Row label="App Password (16 characters)">
@@ -278,7 +273,8 @@ function EmailInboxCard() {
               value={appPassword}
               onChange={(e) => setAppPassword(e.target.value)}
               placeholder={connected ? "•••••••••••••••• (saved)" : "abcd efgh ijkl mnop"}
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#0d4a3a] outline-none font-mono"
+              disabled={isDemo}
+              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:border-[#0d4a3a] outline-none font-mono disabled:bg-gray-50 disabled:text-gray-500"
            />
          </Row>
 
@@ -294,7 +290,7 @@ function EmailInboxCard() {
          <div className="flex flex-col sm:flex-row gap-3">
            <button
              type="submit"
-             disabled={busy || !inboxEmail.trim() || appPassword.trim().length < 8}
+             disabled={busy || isDemo || !inboxEmail.trim() || appPassword.trim().length < 8}
              className="flex-1 py-3.5 rounded-lg bg-[#0d4a3a] hover:bg-[#0a3d30] text-white font-bold tracking-wide transition disabled:opacity-60"
            >
              {busy ? "Connecting…" : connected ? "UPDATE & RECONNECT" : "CONNECT EMAIL"}
@@ -311,16 +307,12 @@ function EmailInboxCard() {
              <button
                type="button"
                onClick={onDisconnect}
-               disabled={busy}
+               disabled={busy || isDemo}
                className="py-3.5 px-5 rounded-lg border border-red-300 text-red-600 font-bold tracking-wide transition disabled:opacity-60"
              >
                DISCONNECT
              </button>
            ) : null}
-
-
-
-
           </div>
         </form>
       </div>
