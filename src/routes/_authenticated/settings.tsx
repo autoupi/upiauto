@@ -245,10 +245,6 @@ function EmailInboxCard({ isDemo }: { isDemo: boolean }) {
         </span>
       </div>
 
-       <p className="text-sm text-gray-600 mb-4">
-         Enter the Gmail address that receives your PhonePe/Paytm credit alerts and its 16-character
-         Google App Password. Payments are detected by reading this inbox in real time.
-       </p>
 
        {isDemo && (
          <div className="mb-4 rounded-lg bg-blue-50 border border-blue-100 p-3 text-sm text-blue-700">
