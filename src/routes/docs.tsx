@@ -316,15 +316,30 @@ export async function POST(req: Request) {
               <p>Retrieve the current status of an order.</p>
 
               <h3>Status values</h3>
-              <ParamTable
-                rows={[
-                  ["pending", "Order created, waiting for payment."],
-                  ["paid", "Payment completed and verified."],
-                  ["expired", "Payment window closed without a match."],
-                  ["failed", "Payment could not be completed."],
-                  ["manual_review", "Multiple pending orders shared the same amount; automatic matching was skipped."],
-                ]}
-              />
+              <div className="not-prose my-4 overflow-x-auto rounded-lg border border-gray-200">
+                <table className="w-full text-sm">
+                  <thead className="bg-gray-50 text-left">
+                    <tr>
+                      <th className="px-4 py-2 font-semibold text-gray-700 border-b border-gray-200">Status</th>
+                      <th className="px-4 py-2 font-semibold text-gray-700 border-b border-gray-200">Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {[
+                      ["pending", "Order created, waiting for payment."],
+                      ["paid", "Payment completed and verified."],
+                      ["expired", "Payment window closed without a match."],
+                      ["failed", "Payment could not be completed."],
+                      ["manual_review", "Multiple pending orders shared the same amount; automatic matching was skipped."],
+                    ].map(([status, desc], i) => (
+                      <tr key={i} className="border-b border-gray-100 last:border-0">
+                        <td className="px-4 py-3 font-mono text-[#0d4a3a] font-medium">{status}</td>
+                        <td className="px-4 py-3 text-gray-700">{desc}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
             </Section>
 
             <Section id="best-practices" title="Best Practices">
