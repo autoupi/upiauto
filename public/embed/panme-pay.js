@@ -15,7 +15,25 @@
 (function () {
   "use strict";
 
-  var GATEWAY = "https://www.autoupi.shop";
+  // Gateway origin = jis domain se yeh script load hui hai (har user ka apna custom domain).
+  var GATEWAY = (function () {
+    try {
+      var s = document.currentScript;
+      if (!s) {
+        var all = document.getElementsByTagName("script");
+        for (var i = all.length - 1; i >= 0; i--) {
+          if (all[i].src && all[i].src.indexOf("/embed/panme-pay.js") !== -1) {
+            s = all[i];
+            break;
+          }
+        }
+      }
+      if (s && s.src) return new URL(s.src, window.location.href).origin;
+    } catch (e) {
+      /* ignore */
+    }
+    return window.location.origin;
+  })();
   var POLL_MS = 2000;
 
   function el(tag, style, text) {
