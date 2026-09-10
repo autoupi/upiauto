@@ -16,7 +16,7 @@ export const Route = createFileRoute("/docs")({
 });
 
 const BASE =
-  PUBLIC_BASE_URL || (typeof window !== "undefined" ? window.location.origin : "https://www.autoupi.shop");
+  PUBLIC_BASE_URL || (typeof window !== "undefined" ? window.location.origin : "https://your-domain.com");
 
 const sections = [
   { id: "introduction", label: "Introduction" },

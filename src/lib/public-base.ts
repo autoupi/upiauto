@@ -5,7 +5,7 @@
 //   export const PUBLIC_BASE_URL = "https://owndomain.com";
 //
 // Khali string ("") rakhne par code request ke host se khud base bana lega.
-export const PUBLIC_BASE_URL: string = "https://www.autoupi.shop"; // "" = auto-detect from request host.
+export const PUBLIC_BASE_URL: string = ""; // "" = auto-detect from request host (har user ka apna domain).
 
 /** Resolve the public origin for building user-facing links. */
 export function resolvePublicOrigin(request: Request): string {
