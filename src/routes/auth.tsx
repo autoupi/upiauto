@@ -31,6 +31,9 @@ type Mode = "login" | "register";
 
 function AuthPage() {
   const [mode, setMode] = useState<Mode>("login");
+  const branding = useBranding();
+  const logoUrl = branding.logo_url || defaultLogoUrl;
+
 
   return (
     <main className="min-h-screen flex bg-white">

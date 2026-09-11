@@ -4,10 +4,11 @@ import {
   Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarMenu,
   SidebarMenuItem, SidebarMenuButton, SidebarProvider, SidebarTrigger, SidebarHeader, SidebarFooter,
 } from "@/components/ui/sidebar";
-import { QrCode, KeyRound, Settings, FileText, LogOut, History } from "lucide-react";
+import { QrCode, KeyRound, Settings, FileText, LogOut, History, UserRound } from "lucide-react";
 import { toast } from "sonner";
 import { swalSuccess } from "@/lib/swal";
-import logoUrl from "@/assets/panme-logo.jpg";
+import defaultLogoUrl from "@/assets/panme-logo.jpg";
+import { useBranding } from "@/lib/branding";
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
