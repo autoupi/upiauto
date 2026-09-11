@@ -254,28 +254,37 @@ export type Database = {
       }
       profiles: {
         Row: {
+          brand_name: string | null
           created_at: string
           display_name: string | null
           email: string | null
+          favicon_url: string | null
           id: string
+          logo_url: string | null
           payee_name: string | null
           updated_at: string
           upi_id: string | null
         }
         Insert: {
+          brand_name?: string | null
           created_at?: string
           display_name?: string | null
           email?: string | null
+          favicon_url?: string | null
           id: string
+          logo_url?: string | null
           payee_name?: string | null
           updated_at?: string
           upi_id?: string | null
         }
         Update: {
+          brand_name?: string | null
           created_at?: string
           display_name?: string | null
           email?: string | null
+          favicon_url?: string | null
           id?: string
+          logo_url?: string | null
           payee_name?: string | null
           updated_at?: string
           upi_id?: string | null
