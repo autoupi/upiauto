@@ -8,7 +8,10 @@ import { QrCode, KeyRound, Settings, FileText, LogOut, History, UserRound } from
 import { toast } from "sonner";
 import { swalSuccess } from "@/lib/swal";
 import defaultLogoUrl from "@/assets/panme-logo.jpg";
-import { useBranding } from "@/lib/branding";
+import { useBranding, saveBranding } from "@/lib/branding";
+import { useEffect } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { getMyProfile } from "@/lib/user-keys.functions";
 
 export const Route = createFileRoute("/_authenticated")({
   ssr: false,
