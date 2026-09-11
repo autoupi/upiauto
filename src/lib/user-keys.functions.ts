@@ -7,20 +7,40 @@ export const getMyProfile = createServerFn({ method: "GET" })
   .handler(async ({ context }) => {
     const { data, error } = await context.supabase
       .from("profiles")
-      .select("email,display_name,upi_id,payee_name")
+      .select("email,display_name,upi_id,payee_name,brand_name,logo_url,favicon_url")
       .eq("id", context.userId)
       .maybeSingle();
     if (error) throw new Error(error.message);
-    return data ?? { email: null, display_name: null, upi_id: null, payee_name: null };
+    return (
+      data ?? {
+        email: null,
+        display_name: null,
+        upi_id: null,
+        payee_name: null,
+        brand_name: null,
+        logo_url: null,
+        favicon_url: null,
+      }
+    );
   });
 
 export const updateMyProfile = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
-  .inputValidator((d: { display_name?: string; upi_id?: string; payee_name?: string }) =>
+  .inputValidator((d: {
+    display_name?: string;
+    upi_id?: string;
+    payee_name?: string;
+    brand_name?: string;
+    logo_url?: string | null;
+    favicon_url?: string | null;
+  }) =>
     z.object({
       display_name: z.string().trim().max(80).optional(),
       upi_id: z.string().trim().max(80).optional(),
       payee_name: z.string().trim().max(80).optional(),
+      brand_name: z.string().trim().max(60).optional(),
+      logo_url: z.string().max(400_000).nullable().optional(),
+      favicon_url: z.string().max(200_000).nullable().optional(),
     }).parse(d),
   )
   .handler(async ({ data, context }) => {
