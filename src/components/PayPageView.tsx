@@ -29,6 +29,7 @@ interface Order {
   failure_url?: string | null;
   upi_pa?: string | null;
   upi_pn?: string | null;
+  brand_name?: string | null;
 }
 
 export function PayPageView({ orderId }: { orderId: string }) {
@@ -272,7 +273,7 @@ export function PayPageView({ orderId }: { orderId: string }) {
 
               {/* Merchant name + Transfer to */}
               <div className="text-center px-5 pb-3">
-                <div className="text-[20px] sm:text-[22px] font-bold text-[#1a2b4a] leading-tight">Panme Shop</div>
+                <div className="text-[20px] sm:text-[22px] font-bold text-[#1a2b4a] leading-tight">{order.brand_name?.trim() || "Panme Shop"}</div>
                 <div className="text-sm text-gray-400 mt-1">Transfer to</div>
               </div>
 
