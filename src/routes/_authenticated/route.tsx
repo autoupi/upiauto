@@ -32,6 +32,7 @@ export const Route = createFileRoute("/_authenticated")({
 const items = [
    { title: "Generate QR", url: "/generate", icon: QrCode },
    { title: "History", url: "/history", icon: History },
+   { title: "Profile", url: "/profile", icon: UserRound },
    { title: "API Keys", url: "/api-keys", icon: KeyRound },
    { title: "Settings", url: "/settings", icon: Settings },
 ];
@@ -39,6 +40,22 @@ const items = [
 function AppSidebar() {
   const navigate = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const branding = useBranding();
+  const logoUrl = branding.logo_url || defaultLogoUrl;
+
+  // Keep the cached branding fresh after sign-in (login page reads the cache).
+  const loadProfile = useServerFn(getMyProfile);
+  useEffect(() => {
+    loadProfile()
+      .then((p: any) =>
+        saveBranding({
+          brand_name: p.brand_name ?? null,
+          logo_url: p.logo_url ?? null,
+          favicon_url: p.favicon_url ?? null,
+        }),
+      )
+      .catch(() => { /* offline / transient */ });
+  }, []);
   async function logout() {
     await supabase.auth.signOut();
     await swalSuccess("Logged out successfully");
