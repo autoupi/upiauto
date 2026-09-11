@@ -4,7 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import { swalSuccess } from "@/lib/swal";
-import logoUrl from "@/assets/panme-logo.jpg";
+import defaultLogoUrl from "@/assets/panme-logo.jpg";
+import { useBranding } from "@/lib/branding";
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
@@ -30,6 +31,9 @@ type Mode = "login" | "register";
 
 function AuthPage() {
   const [mode, setMode] = useState<Mode>("login");
+  const branding = useBranding();
+  const logoUrl = branding.logo_url || defaultLogoUrl;
+
 
   return (
     <main className="min-h-screen flex bg-white">
