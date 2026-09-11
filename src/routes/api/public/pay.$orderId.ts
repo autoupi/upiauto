@@ -37,13 +37,33 @@
             const { data, error } = await supabase
                .from("orders")
                .select(
-                 "order_id,requested_amount,payable_amount,status,created_at,expiry_at,paid_at,success_url,failure_url,upi_pa,upi_pn",
+                 "order_id,requested_amount,payable_amount,status,created_at,expiry_at,paid_at,success_url,failure_url,upi_pa,upi_pn,merchant_id",
                )
                .eq("order_id", params.orderId)
                .maybeSingle();
             if (error) return json({ error: "db_error" }, 500);
             if (!data) return json({ error: "not_found" }, 404);
-            return json(data);
+
+            // Merchant's own shop name (set in Profile) shown above the QR.
+            let brand_name: string | null = null;
+            if (data.merchant_id) {
+              const { data: m } = await supabase
+                .from("merchants")
+                .select("owner_id")
+                .eq("id", data.merchant_id)
+                .maybeSingle();
+              if (m?.owner_id) {
+                const { data: p } = await supabase
+                  .from("profiles")
+                  .select("brand_name")
+                  .eq("id", m.owner_id)
+                  .maybeSingle();
+                brand_name = p?.brand_name ?? null;
+              }
+            }
+
+            const { merchant_id: _merchantId, ...safe } = data;
+            return json({ ...safe, brand_name });
           } catch (e: any) {
             return json({ error: "internal_error", message: e.message }, 500);
           }
