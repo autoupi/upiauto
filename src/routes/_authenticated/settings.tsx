@@ -57,7 +57,16 @@ function SettingsPage() {
     e.preventDefault();
     setSaving(true);
     try {
-      await save({ data: { display_name: displayName, upi_id: isDemo ? DEMO_UPI : upiId, payee_name: payeeName } });
+      const saved = await save({
+        data: {
+          display_name: displayName.trim(),
+          upi_id: isDemo ? DEMO_UPI : upiId.trim(),
+          payee_name: payeeName.trim(),
+        },
+      });
+      setName(saved.display_name ?? "");
+      setUpi(saved.upi_id ?? "");
+      setPayee(saved.payee_name ?? "");
       swalSuccess("Settings saved successfully");
     } catch (err: any) {
       toast.error(err.message);

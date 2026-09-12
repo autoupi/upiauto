@@ -1,10 +1,14 @@
-# Daily Data Purge
+# AutoUPI Payment Gateway
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new)
+
+Click the button above from GitHub, select this repository, add the Supabase environment variables from `.env.example`, and deploy.
 
 This is my full Doc's file and its make same to same clone copy a to z every logic s per this prompt and use my own directly supabase account and vercel hostinger and only just one changes ki jo bhi 1 din per data rehga o same day rat 12 baje automictly parmentaly deleted hota rehga kyun ki ki storage kam ki wajah se like example ajj 30-08-2026 jitne bhi data base hoga o sab data rat bara baje like 31-08-2026 per clear hoga jo permantaly helthly rehga baki koi others kus bhi changes nehi make directly clone this projected and its projected malik im khud
 
 This project was built with [Lovable](https://lovable.dev).
 
-**Live app**: https://upiauto.lovable.app
+**Live app**: https://www.autoupi.shop
 
 ## Build with Lovable
 

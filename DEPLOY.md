@@ -33,8 +33,8 @@ Set them for **Production, Preview and Development**, then redeploy once.
 ## 3. Custom domain
 
 Vercel → Project → Settings → **Domains** → add `autoupi.shop` and `www.autoupi.shop`.
-The app's public base URL is hardcoded in `src/lib/public-base.ts` as
-`https://www.autoupi.shop`, so `payment_url` in API responses always points to your domain.
+The app automatically uses the domain handling the request, so each deployment's
+`payment_url` points to its own configured domain.
 
 ## 4. Cron jobs (every minute) — Hobby plan setup
 

@@ -66,8 +66,11 @@ function ProfilePage() {
     e.preventDefault();
     setSaving(true);
     try {
-      await save({ data: { brand_name: brandName.trim(), logo_url: logo, favicon_url: favicon } });
-      saveBranding({ brand_name: brandName.trim() || null, logo_url: logo, favicon_url: favicon });
+      const saved = await save({ data: { brand_name: brandName.trim(), logo_url: logo, favicon_url: favicon } });
+      setBrandName(saved.brand_name ?? "");
+      setLogo(saved.logo_url ?? null);
+      setFavicon(saved.favicon_url ?? null);
+      saveBranding({ brand_name: saved.brand_name, logo_url: saved.logo_url, favicon_url: saved.favicon_url });
       swalSuccess("Profile updated successfully");
     } catch (err: any) {
       toast.error(err.message);

@@ -31,9 +31,17 @@ CREATE TABLE IF NOT EXISTS public.profiles (
   display_name text,
   upi_id text,
   payee_name text,
+  brand_name text,
+  logo_url text,
+  favicon_url text,
   created_at timestamptz NOT NULL DEFAULT now(),
   updated_at timestamptz NOT NULL DEFAULT now()
 );
+
+ALTER TABLE public.profiles
+  ADD COLUMN IF NOT EXISTS brand_name text,
+  ADD COLUMN IF NOT EXISTS logo_url text,
+  ADD COLUMN IF NOT EXISTS favicon_url text;
 
 CREATE TABLE IF NOT EXISTS public.profiles_revealed (
   user_id uuid PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,

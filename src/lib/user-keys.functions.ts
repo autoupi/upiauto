@@ -44,12 +44,15 @@ export const updateMyProfile = createServerFn({ method: "POST" })
     }).parse(d),
   )
   .handler(async ({ data, context }) => {
-    const { error } = await context.supabase
+    const { data: saved, error } = await context.supabase
       .from("profiles")
       .update(data)
-      .eq("id", context.userId);
+      .eq("id", context.userId)
+      .select("email,display_name,upi_id,payee_name,brand_name,logo_url,favicon_url")
+      .maybeSingle();
     if (error) throw new Error(error.message);
-    return { ok: true };
+    if (!saved) throw new Error("Profile could not be saved. Please sign in again and retry.");
+    return saved;
   });
 
 
