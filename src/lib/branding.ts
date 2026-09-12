@@ -61,7 +61,7 @@ export function useBranding(): Branding {
   return b;
 }
 
-/** Resize an uploaded image to a square data-URL (PNG) so it stays tiny. */
+/** Resize an uploaded image to a compact square PNG before saving it. */
 export function fileToDataUrl(file: File, size: number): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -79,7 +79,12 @@ export function fileToDataUrl(file: File, size: number): Promise<string> {
         const w = img.width * scale;
         const h = img.height * scale;
         ctx.drawImage(img, (size - w) / 2, (size - h) / 2, w, h);
-        resolve(canvas.toDataURL("image/png"));
+        const dataUrl = canvas.toDataURL("image/png");
+        if (dataUrl.length > 180_000) {
+          reject(new Error("Image is too detailed. Please choose a simpler or smaller image."));
+          return;
+        }
+        resolve(dataUrl);
       };
       img.src = reader.result as string;
     };
