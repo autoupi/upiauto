@@ -1,6 +1,6 @@
 # AutoUPI — One-Click Vercel Deployment
 
-Live domain: **https://www.autoupi.shop**
+Live domain: **https://online.2kadam.com**
 
 ## 1. Deploy
 
@@ -32,7 +32,7 @@ Set them for **Production, Preview and Development**, then redeploy once.
 
 ## 3. Custom domain
 
-Vercel → Project → Settings → **Domains** → add `autoupi.shop` and `www.autoupi.shop`.
+Vercel → Project → Settings → **Domains** → add `autoupi.shop` and `online.2kadam.com`.
 The app automatically uses the domain handling the request, so each deployment's
 `payment_url` points to its own configured domain.
 
@@ -46,11 +46,11 @@ Instead, use a free external cron service — it takes 2 minutes:
 
 1. Go to **https://cron-job.org** → create a free account.
 2. Create **Cron Job #1**:
-   - URL: `https://www.autoupi.shop/api/public/payments/poll`
+   - URL: `https://online.2kadam.com/api/public/payments/poll`
    - Schedule: **every minute** (`* * * * *`)
    - Request method: `GET`
 3. Create **Cron Job #2**:
-   - URL: `https://www.autoupi.shop/api/public/v1/internal/dispatch-webhooks`
+   - URL: `https://online.2kadam.com/api/public/v1/internal/dispatch-webhooks`
    - Schedule: **every minute** (`* * * * *`)
    - Request method: `GET`
 
