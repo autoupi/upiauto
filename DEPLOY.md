@@ -9,7 +9,7 @@ Live domain: **https://www.autoupi.shop**
 1. Push this repo to GitHub (Lovable → GitHub sync works too).
 2. Vercel → **Add New → Project → Import** this repo.
 3. Framework preset: **Other** (already configured in `vercel.json`).
-   - Install: `npm install`
+   - Install: `npm install --legacy-peer-deps`
    - Build: `BUILD_TARGET=vercel NITRO_PRESET=vercel npm run build`
 4. Paste the environment variables below → **Deploy**. Done.
 
