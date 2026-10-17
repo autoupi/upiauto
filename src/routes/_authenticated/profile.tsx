@@ -3,8 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { getMyProfile, updateMyProfile } from "@/lib/user-keys.functions";
 import { fileToDataUrl, readBranding, saveBranding } from "@/lib/branding";
-import { toast } from "sonner";
-import { swalSuccess } from "@/lib/swal";
+import { swalSuccess, swalError } from "@/lib/swal";
 import { UserRound, Image as ImageIcon } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import defaultLogoUrl from "@/assets/panme-logo.jpg";
@@ -41,7 +40,7 @@ function ProfilePage() {
         saveBranding({ brand_name: p.brand_name ?? null, logo_url: p.logo_url ?? null, favicon_url: p.favicon_url ?? null });
       })
       .catch((e: any) => {
-        toast.error(e.message);
+        swalError("Could not load profile", e?.message);
         const cached = readBranding();
         setBrandName(cached.brand_name ?? "");
         setLogo(cached.logo_url ?? null);
@@ -52,13 +51,13 @@ function ProfilePage() {
 
   async function pick(kind: "logo" | "favicon", file: File | undefined) {
     if (!file) return;
-    if (!file.type.startsWith("image/")) return toast.error("Please choose an image file");
+    if (!file.type.startsWith("image/")) return void swalError("Please choose an image file");
     try {
       const dataUrl = await fileToDataUrl(file, kind === "logo" ? 256 : 64);
       if (kind === "logo") setLogo(dataUrl);
       else setFavicon(dataUrl);
     } catch (e: any) {
-      toast.error(e.message ?? "Could not process image");
+      swalError("Could not use this image", e?.message);
     }
   }
 
@@ -71,9 +70,9 @@ function ProfilePage() {
       setLogo(saved.logo_url ?? null);
       setFavicon(saved.favicon_url ?? null);
       saveBranding({ brand_name: saved.brand_name, logo_url: saved.logo_url, favicon_url: saved.favicon_url });
-      swalSuccess("Profile updated successfully");
+      await swalSuccess("Profile updated successfully");
     } catch (err: any) {
-      toast.error(err.message);
+      swalError("Profile not saved", err?.message ?? "Please try again.");
     } finally {
       setSaving(false);
     }
@@ -133,14 +132,14 @@ function ProfilePage() {
             type="file"
             accept="image/*"
             className="hidden"
-            onChange={(e) => pick("logo", e.target.files?.[0])}
+            onChange={(e) => { pick("logo", e.target.files?.[0]); e.target.value = ""; }}
           />
           <input
             ref={faviconInput}
             type="file"
             accept="image/*"
             className="hidden"
-            onChange={(e) => pick("favicon", e.target.files?.[0])}
+            onChange={(e) => { pick("favicon", e.target.files?.[0]); e.target.value = ""; }}
           />
 
           <button
