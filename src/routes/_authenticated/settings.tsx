@@ -12,7 +12,7 @@ import {
 import { Settings as SettingsIcon, Mail } from "lucide-react";
 
 import { toast } from "sonner";
-import { swalSuccess } from "@/lib/swal";
+import { swalSuccess, swalError } from "@/lib/swal";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export const Route = createFileRoute("/_authenticated/settings")({
@@ -49,7 +49,7 @@ function SettingsPage() {
         }
         setPayee(p.payee_name ?? "");
       })
-      .catch((e) => toast.error(e.message))
+      .catch((e) => swalError("Could not load settings", e?.message))
       .finally(() => setLoading(false));
   }, []);
 
@@ -67,9 +67,9 @@ function SettingsPage() {
       setName(saved.display_name ?? "");
       setUpi(saved.upi_id ?? "");
       setPayee(saved.payee_name ?? "");
-      swalSuccess("Settings saved successfully");
+      await swalSuccess("Settings saved successfully");
     } catch (err: any) {
-      toast.error(err.message);
+      swalError("Settings not saved", err?.message ?? "Please try again.");
     } finally {
       setSaving(false);
     }

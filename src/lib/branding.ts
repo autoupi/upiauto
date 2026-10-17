@@ -31,14 +31,28 @@ export function saveBranding(b: Branding) {
   window.dispatchEvent(new CustomEvent("autoupi-branding"));
 }
 
+const FAVICON_ID = "autoupi-favicon";
+
 export function applyFavicon(href: string | null) {
   if (typeof document === "undefined") return;
   const url = href || "/favicon.png";
-  document.querySelectorAll<HTMLLinkElement>("link[rel~='icon']").forEach((l) => l.remove());
-  const link = document.createElement("link");
-  link.rel = "icon";
-  link.href = url;
-  document.head.appendChild(link);
+  const type = url.startsWith("data:image/webp") ? "image/webp" : "image/png";
+  // Update every existing icon link in place (never remove the ones the
+  // framework manages, otherwise they get re-inserted on navigation).
+  document.querySelectorAll<HTMLLinkElement>("link[rel~='icon']").forEach((l) => {
+    if (l.getAttribute("href") !== url) l.setAttribute("href", url);
+    l.setAttribute("type", type);
+  });
+  // Keep our own icon link as the last one in <head> so browsers always pick it.
+  let own = document.getElementById(FAVICON_ID) as HTMLLinkElement | null;
+  if (!own) {
+    own = document.createElement("link");
+    own.id = FAVICON_ID;
+    own.rel = "icon";
+  }
+  own.type = type;
+  own.href = url;
+  document.head.appendChild(own);
 }
 
 /** Returns cached branding and keeps it in sync across the app. */
@@ -79,7 +93,13 @@ export function fileToDataUrl(file: File, size: number): Promise<string> {
         const w = img.width * scale;
         const h = img.height * scale;
         ctx.drawImage(img, (size - w) / 2, (size - h) / 2, w, h);
-        const dataUrl = canvas.toDataURL("image/png");
+        let dataUrl = canvas.toDataURL("image/png");
+        // Photos make big PNGs — fall back to compressed WebP (keeps transparency).
+        for (const q of [0.9, 0.8, 0.65, 0.5]) {
+          if (dataUrl.length <= 150_000) break;
+          const webp = canvas.toDataURL("image/webp", q);
+          if (webp.startsWith("data:image/webp")) dataUrl = webp;
+        }
         if (dataUrl.length > 180_000) {
           reject(new Error("Image is too detailed. Please choose a simpler or smaller image."));
           return;

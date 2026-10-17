@@ -44,6 +44,9 @@ export const updateMyProfile = createServerFn({ method: "POST" })
     }).parse(d),
   )
   .handler(async ({ data, context }) => {
+    if (data.upi_id && !/^[a-zA-Z0-9._-]{2,}@[a-zA-Z][a-zA-Z0-9.-]+$/.test(data.upi_id)) {
+      throw new Error("Invalid UPI ID. Example: yourname@ybl");
+    }
     const { data: saved, error } = await context.supabase
       .from("profiles")
       .update(data)
