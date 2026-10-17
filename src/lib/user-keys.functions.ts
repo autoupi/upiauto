@@ -47,15 +47,27 @@ export const updateMyProfile = createServerFn({ method: "POST" })
     if (data.upi_id && !/^[a-zA-Z0-9._-]{2,}@[a-zA-Z][a-zA-Z0-9.-]+$/.test(data.upi_id)) {
       throw new Error("Invalid UPI ID. Example: yourname@ybl");
     }
-    const { data: saved, error } = await context.supabase
+    // userId is already verified by requireSupabaseAuth; write only that user's row.
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const cols = "email,display_name,upi_id,payee_name,brand_name,logo_url,favicon_url";
+    const { data: updated, error } = await supabaseAdmin
       .from("profiles")
       .update(data)
       .eq("id", context.userId)
-      .select("email,display_name,upi_id,payee_name,brand_name,logo_url,favicon_url")
+      .select(cols)
       .maybeSingle();
     if (error) throw new Error(error.message);
-    if (!saved) throw new Error("Profile could not be saved. Please sign in again and retry.");
-    return saved;
+    if (updated) return updated;
+    // Profile row missing — create it for this user.
+    const email = (context.claims as any)?.email ?? null;
+    const { data: inserted, error: insErr } = await supabaseAdmin
+      .from("profiles")
+      .upsert({ id: context.userId, email, ...data }, { onConflict: "id" })
+      .select(cols)
+      .maybeSingle();
+    if (insErr) throw new Error(insErr.message);
+    if (!inserted) throw new Error("Profile could not be saved. Please try again.");
+    return inserted;
   });
 
 
