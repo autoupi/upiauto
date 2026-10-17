@@ -36,12 +36,7 @@ export const updateMyProfile = createServerFn({ method: "POST" })
   }) =>
     z.object({
       display_name: z.string().trim().max(80).optional(),
-      upi_id: z
-        .string()
-        .trim()
-        .max(80)
-        .refine((v) => v === "" || /^[a-zA-Z0-9._-]{2,}@[a-zA-Z][a-zA-Z0-9.-]{1,}$/.test(v), "Invalid UPI ID (example: name@ybl)")
-        .optional(),
+      upi_id: z.string().trim().max(80).optional(),
       payee_name: z.string().trim().max(80).optional(),
       brand_name: z.string().trim().max(60).optional(),
       logo_url: z.string().max(400_000).nullable().optional(),
@@ -49,6 +44,9 @@ export const updateMyProfile = createServerFn({ method: "POST" })
     }).parse(d),
   )
   .handler(async ({ data, context }) => {
+    if (data.upi_id && !/^[a-zA-Z0-9._-]{2,}@[a-zA-Z][a-zA-Z0-9.-]+$/.test(data.upi_id)) {
+      throw new Error("Invalid UPI ID. Example: yourname@ybl");
+    }
     const { data: saved, error } = await context.supabase
       .from("profiles")
       .update(data)
